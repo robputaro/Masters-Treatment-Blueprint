@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masters Treatment Blueprint Studio RC1 Mobile</title>
+<style>
+:root{
+  --navy:#061a34; --navy2:#09284d; --gold:#c99a35; --gold2:#e9cc7a; --cream:#fbf5e9; --paper:#fffdf8; --ink:#101827; --muted:#667085; --line:#ded2bc; --soft:#f4ead7; --blue:#0c3768;
+  --serif: Georgia, 'Times New Roman', serif; --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:#efe7d8;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased} button,input,select,textarea{font:inherit} button{cursor:pointer}
+.app{min-height:100vh;display:grid;grid-template-columns:286px 1fr;background:linear-gradient(90deg,var(--navy),var(--navy2) 286px,var(--paper) 286px)}
+.sidebar{position:sticky;top:0;height:100vh;padding:30px 24px;color:#fff8ea;background:radial-gradient(circle at 20% 0,rgba(233,204,122,.2),transparent 34%),linear-gradient(180deg,#071b35,#031125)}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:34px}.mark{font-family:var(--serif);font-size:55px;line-height:.8;color:var(--gold2)}.brand b{display:block;font-family:var(--serif);font-size:25px;letter-spacing:.08em}.brand span{font-size:10px;text-transform:uppercase;letter-spacing:.22em;color:#f1d991}
+.sideTitle{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:#e7c56a;margin:28px 0 14px;display:flex;align-items:center;gap:14px}.sideTitle:after{content:"";height:1px;background:rgba(233,204,122,.45);flex:1}
+.navItem{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;padding:13px 8px;border-left:3px solid transparent;color:#d9e2ef}.navItem.active{background:rgba(255,255,255,.07);border-left-color:var(--gold)}.navItem i{font-style:normal;color:var(--gold2);font-size:18px}.navItem b{display:block;font-size:13px}.navItem span{font-size:11px;color:#aebbd0;line-height:1.4}.mastersCard{border:1px solid var(--gold);padding:18px;margin-top:30px}.mastersCard b{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#f2d680}.mastersCard p{font-size:12px;line-height:1.55;color:#e9eef6;margin:12px 0 0}
+.content{padding:0 36px 56px}.topbar{height:78px;display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;border-bottom:1px solid #e8ddc8;background:rgba(255,253,248,.86);position:sticky;top:0;z-index:5;backdrop-filter:blur(10px)}.clinicMini{display:grid;grid-template-columns:110px 1fr;align-items:center;max-width:460px}.clinicMini label{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#a06f17;font-weight:800}.clinicMini input{border:0;border-left:1px solid #e4d5bd;background:transparent;padding:7px 0 7px 16px;font-size:16px;outline:none}.pillBtn,.darkBtn{border:1px solid var(--line);background:#fff;color:var(--navy);padding:12px 18px;border-radius:4px;font-weight:700}.darkBtn{background:var(--navy);color:#fff8ea;border-color:var(--navy);box-shadow:0 8px 18px rgba(6,26,52,.22)}
+.heroGrid{display:grid;grid-template-columns:270px 1fr;gap:34px;padding-top:34px}.context{border-right:1px solid #e6d9c4;padding-right:28px}.sectionLabel{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:#a06f17;font-weight:900;margin:0 0 9px}.patientName{font-family:var(--serif);font-size:44px;line-height:.98;margin:0 0 8px;letter-spacing:-.045em}.muted{font-size:13px;color:var(--muted);line-height:1.58;margin:0}.field{margin:22px 0}.field label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#a06f17;font-weight:900;margin:0 0 8px}.field input,.field select,.field textarea{width:100%;border:0;border-bottom:1px solid #d9ccb6;background:transparent;padding:8px 0;outline:none;color:var(--ink)}.field textarea{border:1px solid #d8c8ae;padding:13px;min-height:120px;background:#fffaf0;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.tagWrap{display:flex;flex-wrap:wrap;gap:7px}.tag{border:1px solid #ded2bc;background:#fffaf0;border-radius:999px;padding:7px 10px;font-size:12px;color:#344054;display:inline-flex;gap:6px}.tag button{all:unset;cursor:pointer;color:#9b6c13;font-weight:900}.addRow{display:grid;grid-template-columns:1fr 40px;gap:8px}.addRow button{border:1px solid var(--gold);background:#fff9e9;color:var(--navy);font-size:21px;border-radius:999px}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid #d8c8ae;background:#fffaf0;padding:8px 10px;border-radius:999px;font-size:12px;user-select:none}.chip.active{background:var(--navy);color:#fff8ea;border-color:var(--navy)}
+.mainStage{min-width:0}.edition{display:inline-flex;align-items:center;gap:10px;border:1px solid #e1c37a;border-radius:6px;padding:9px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--navy);font-weight:900;background:#fffaf0;margin-bottom:22px}.titleRow{display:grid;grid-template-columns:1fr minmax(280px,410px);gap:34px;align-items:start}.titleKicker{font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:#a06f17;font-weight:900;margin-bottom:7px}.mainTitle{font-family:var(--serif);font-size:clamp(54px,7vw,88px);line-height:.86;letter-spacing:-.065em;margin:0;color:#111827}.mainTitle em{font-style:normal;color:var(--gold)}.subline{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:#596579;margin:20px 0 0}.philosophy{display:grid;grid-template-columns:54px 1fr 1px;gap:18px;align-items:start;margin:30px 0 26px;max-width:720px}.compass{width:54px;height:54px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:28px}.philosophy:after{content:"";height:88px;background:var(--gold);opacity:.6}.philosophy b{display:block;color:#a06f17;text-transform:uppercase;letter-spacing:.16em;font-size:13px;margin-bottom:8px}.philosophy p{font-size:18px;line-height:1.48;margin:0}.patientQuote{background:#fff;border:1px solid #e8ddc8;border-radius:10px;box-shadow:0 14px 40px rgba(16,24,39,.08);padding:22px 24px;align-self:start}.patientQuote h3{font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin:0 0 8px}.patientQuote p{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.45;color:#283247;margin:20px 0 0}.quoteMarks{color:var(--gold);font-size:30px;line-height:0}
+.blueprintPanel{background:#fff;border:1px solid #e8ddc8;border-radius:10px;box-shadow:0 16px 50px rgba(16,24,39,.08);padding:26px 26px 24px;margin-top:8px}.panelHead{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:26px}.panelHead h2{margin:0;font-size:17px;text-transform:uppercase;letter-spacing:.14em;color:var(--navy)}.textBtn{border:0;background:transparent;color:var(--navy);font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:900}.roadmap{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;position:relative}.roadmap:before{content:"";position:absolute;top:26px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold),transparent);z-index:0}.phase{text-align:center;position:relative;z-index:1}.num{width:44px;height:44px;margin:0 auto 18px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:900;border:2px solid var(--gold);box-shadow:0 6px 18px rgba(6,26,52,.22)}.icon{width:74px;height:74px;border-radius:50%;border:1px solid #e6d3ae;background:#fffaf0;margin:0 auto 15px;display:grid;place-items:center;color:var(--gold);font-size:28px}.phase h3{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin:0 0 9px}.phase p{font-size:13px;line-height:1.5;color:#536072;margin:0}.supportGrid{display:grid;grid-template-columns:1fr 1fr minmax(280px,.9fr);gap:18px;margin-top:18px}.infoBox{background:#fff;border:1px solid #e8ddc8;border-radius:10px;padding:22px}.infoBox h3{font-family:var(--serif);font-size:24px;line-height:1;margin:0 0 13px;color:var(--ink)}.checks{display:grid;gap:9px}.checks div{font-size:13px;color:#344054}.checks div:before{content:"✓";color:#a06f17;font-weight:900;margin-right:9px}.recommendBox textarea{width:100%;min-height:142px;border:1px solid #d8c8ae;background:#fffaf0;padding:14px;resize:vertical;color:#344054}.bottomActions{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;background:var(--navy);border-radius:8px;overflow:hidden;box-shadow:0 12px 30px rgba(6,26,52,.18)}.actionBlock{all:unset;color:#fff8ea;padding:24px 28px;display:grid;grid-template-columns:44px 1fr 24px;gap:18px;align-items:center;cursor:pointer}.actionBlock+ .actionBlock{border-left:1px solid rgba(255,255,255,.2)}.actionIcon{color:var(--gold2);font-size:28px}.actionBlock b{display:block;text-transform:uppercase;letter-spacing:.14em;color:#f2d680;font-size:13px}.actionBlock span{font-size:13px;color:#e6eef8}.arrow{font-size:28px;color:#fff}.confidenceBox{margin-top:22px;border:1px solid #e1c37a;background:#fffaf0;padding:16px}.confidenceBox h3{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--navy)}.confidenceChecks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.confidenceChecks label{font-size:12px;color:#4b5565;display:flex;gap:7px;align-items:flex-start}.confidenceChecks input{width:auto;margin-top:2px}.playbook{display:none;margin-top:24px}.playbook.show{display:block}.playbookGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.playbookCard{border:1px solid #e8ddc8;background:#fff;padding:18px;border-radius:8px}.playbookCard b{display:block;color:#a06f17;text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin-bottom:8px}.playbookCard p{font-size:13px;line-height:1.55;color:#526071;margin:0}.research{margin-top:22px}.research summary{cursor:pointer;color:#a06f17;text-transform:uppercase;letter-spacing:.14em;font-weight:900;font-size:12px}.researchGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.researchGrid div{border:1px solid #e8ddc8;background:#fffaf0;padding:12px;font-size:12px;line-height:1.5;color:#596579}.sheetWrap{display:none;margin-top:26px}.sheetWrap.show{display:block}.patientSheet{background:#fffdf8;border:1px solid #ded2bc;box-shadow:0 18px 50px rgba(16,24,39,.12);padding:44px;max-width:1050px;margin:0 auto}.sheetBrand{display:flex;justify-content:space-between;border-bottom:1px solid #ded2bc;padding-bottom:16px;margin-bottom:28px}.sheetBrand b{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--navy)}.sheetContact{text-align:right;font-size:11px;line-height:1.65;color:#596579}.sheetTitle{display:grid;grid-template-columns:1fr 140px;gap:20px;align-items:start}.sheetTitle h2{font-family:var(--serif);font-size:62px;line-height:.9;letter-spacing:-.06em;margin:0}.sheetBadge{border:1px solid var(--gold);padding:12px;text-align:center;color:var(--navy);font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:900}.sheetPhilosophy{background:var(--navy);color:#fff8ea;margin:28px 0;padding:24px}.sheetPhilosophy h3{color:var(--gold2);margin:0 0 8px;font-family:var(--serif);font-size:28px}.sheetPhilosophy p{margin:0;line-height:1.55;color:#edf3fb}.sheetGrid{display:grid;grid-template-columns:1fr 290px;gap:24px}.stackList{border:1px solid #e8ddc8;background:#fff;padding:18px}.stackItem{border-bottom:1px solid #ece2d0;padding:12px 0}.stackItem:last-child{border:0}.stackItem b{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--navy)}.stackItem p{font-size:12px;line-height:1.5;color:#596579;margin:5px 0 0}.questionLines{display:grid;gap:14px;margin-top:14px}.questionLines div{height:24px;border-bottom:1px solid #d8c8ae}.legal{font-size:10px;line-height:1.45;color:#777;border-top:1px solid #e1d7c5;margin-top:24px;padding-top:12px}
+.hidden{display:none!important}.tiny{font-size:11px;line-height:1.5;color:var(--muted);margin-top:7px}.noPrint{}
+@media(max-width:1100px){.app{grid-template-columns:1fr;background:var(--paper)}.sidebar{position:relative;height:auto}.heroGrid,.titleRow,.supportGrid,.sheetGrid{grid-template-columns:1fr}.context{border-right:0;border-bottom:1px solid #e6d9c4;padding-right:0;padding-bottom:20px}.roadmap{grid-template-columns:1fr}.roadmap:before{display:none}.confidenceChecks{grid-template-columns:1fr}.content{padding:0 18px 40px}.topbar{grid-template-columns:1fr}.bottomActions{grid-template-columns:1fr}.actionBlock+.actionBlock{border-left:0;border-top:1px solid rgba(255,255,255,.2)}}
+@media print{body{background:white}.sidebar,.topbar,.context,.bottomActions,.playbook,.noPrint,.blueprintPanel,.supportGrid,.confidenceBox,.research,.mainStage>.titleRow,.mainStage>.edition,.mainStage>.philosophy{display:none!important}.app{display:block;background:white}.content{padding:0}.sheetWrap{display:block!important;margin:0}.patientSheet{box-shadow:none;border:0;padding:28px;max-width:none}.sheetTitle h2{font-size:48px}.roadmap{grid-template-columns:repeat(5,1fr);gap:10px}.phase p{font-size:11px}.icon{width:58px;height:58px}.num{width:34px;height:34px}}
+
+/* v20 clarity + internal quote builder */
+.contextBlock{border-top:1px solid rgba(222,210,188,.9);padding-top:20px;margin-top:22px;position:relative}.contextBlock:first-of-type{border-top:0;padding-top:0}.contextBlock:before{content:attr(data-step);display:inline-block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#a06f17;font-weight:900;margin-bottom:4px}.editHint{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8a6318;font-weight:900;background:#fff7df;border:1px solid #ead49a;border-radius:999px;padding:6px 9px;margin-bottom:12px}.editHint:before{content:'✎';font-size:12px}.sectionDivider{height:1px;background:linear-gradient(90deg,#c99a35,rgba(201,154,53,.18),transparent);margin:26px 0}.blueprintPanel,.infoBox,.confidenceBox,.patientQuote{position:relative}.blueprintPanel:after,.infoBox:after{content:'Review';position:absolute;top:12px;right:14px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#b38a32;font-weight:900;opacity:.62}.recommendBox:after,.quoteBuilder:after{content:'Editable';opacity:.95}.navItem{cursor:pointer;border-radius:0 8px 8px 0;transition:background .18s ease, transform .18s ease}.navItem:hover{background:rgba(255,255,255,.095);transform:translateX(2px)}.workspaceNote{display:grid;grid-template-columns:12px 1fr;gap:10px;margin:16px 0 0;padding:13px 14px;background:#fff8e6;border-left:3px solid var(--gold);font-size:12px;line-height:1.5;color:#5a4930}.workspaceNote:before{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:5px}.quoteBuilder{background:#071b35;color:#fff8ea;border:1px solid #c99a35}.quoteBuilder h3{color:#fff8ea}.quoteBuilder .muted,.quoteBuilder .tiny{color:#d4deed}.quoteToolbar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin-bottom:14px}.quoteTotal{font-family:var(--serif);font-size:32px;line-height:1;color:#f2d680}.priceRows{display:grid;gap:8px}.priceRow{display:grid;grid-template-columns:1fr 116px;gap:10px;align-items:center;border-top:1px solid rgba(255,255,255,.13);padding-top:8px}.priceRow label{font-size:12px;color:#e9eef6}.priceRow input{width:100%;border:1px solid rgba(233,204,122,.45);background:rgba(255,255,255,.07);color:#fff8ea;padding:9px 10px;border-radius:6px;text-align:right}.approachQuotes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.approachQuote{border:1px solid rgba(233,204,122,.35);background:rgba(255,255,255,.06);padding:12px;border-radius:8px}.approachQuote b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#f2d680;margin-bottom:8px}.approachQuote span{font-family:var(--serif);font-size:24px}.approachQuote small{display:block;color:#c9d4e7;font-size:11px;margin-top:4px}.internalOnly{display:inline-flex;align-items:center;gap:8px;background:#fff8e6;border:1px solid #ead49a;color:#5b4211;border-radius:999px;padding:6px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:900}.internalOnly:before{content:'Clinic Only';}.isEditable{outline:2px solid transparent}.isEditable:focus-within{outline:2px solid rgba(201,154,53,.24);outline-offset:3px;border-radius:10px}.quoteNote{margin-top:11px;font-size:11px;color:#d4deed;line-height:1.45}.quoteNote strong{color:#f2d680}.readOnlyLabel{display:inline-flex;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#a06f17;font-weight:900;border:1px solid #ead49a;border-radius:999px;padding:5px 8px;background:#fffaf0}
+.exportControls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:0 auto 14px;max-width:1050px;background:#071b35;color:#fff8ea;border:1px solid #c99a35;border-radius:8px;padding:13px 14px}.exportControls .left{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.exportControls button{border:1px solid rgba(242,214,128,.65);background:#fff8ea;color:#071b35;border-radius:4px;padding:9px 12px;font-weight:800}.exportControls label{font-size:12px;color:#fff8ea;display:flex;gap:8px;align-items:center}.exportControls input{width:auto}.quoteOptions{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.13);display:flex;gap:12px;flex-wrap:wrap;align-items:center}.quoteOptions label{display:flex;gap:8px;align-items:center;font-size:12px;color:#e9eef6}.quoteOptions input{width:auto}.patientInvestment{border:1px solid #e8ddc8;background:#fffaf0;padding:18px;margin-top:16px}.patientInvestment h3{font-family:var(--serif);font-size:24px;margin:0 0 12px;color:var(--ink)}.investmentRow{display:grid;grid-template-columns:1fr auto;gap:14px;border-top:1px solid #eadfce;padding:10px 0;font-size:12px}.investmentRow:first-of-type{border-top:0}.investmentTotal{display:grid;grid-template-columns:1fr auto;gap:14px;border-top:2px solid #d4aa4b;padding-top:12px;margin-top:8px;font-family:var(--serif);font-size:26px;color:var(--navy)}
+@media(max-width:1100px){.approachQuotes{grid-template-columns:1fr}.priceRow{grid-template-columns:1fr}.exportControls{display:block}.exportControls .left{margin-top:10px}}
+@media print{.quoteBuilder{display:none!important}.exportControls{display:none!important}}
+
+/* v22 pricing + design refinement pass */
+.content{padding:0 34px 64px}.heroGrid{grid-template-columns:292px minmax(0,1fr);gap:38px}.context{padding-right:30px}.contextBlock{background:rgba(255,255,255,.38);border:1px solid rgba(222,210,188,.65);border-radius:12px;padding:18px;margin-top:20px}.contextBlock:first-of-type{border:1px solid rgba(222,210,188,.65);padding-top:18px}.contextBlock:before{display:block;margin-bottom:6px}.field{margin:16px 0}.field label{margin-bottom:6px}.field input,.field select{padding:10px 0}.tagWrap,.chips{margin-top:10px}.mainStage{padding-bottom:30px}.titleRow{grid-template-columns:minmax(0,1fr) 360px;gap:28px}.patientQuote{border-radius:14px;padding:20px 22px}.philosophy{margin:24px 0 22px}.blueprintPanel{border-radius:16px;padding:28px 28px 30px;box-shadow:0 20px 54px rgba(6,26,52,.10)}.panelHead{padding-bottom:16px;border-bottom:1px solid #efe4d0;margin-bottom:24px}.roadmap{gap:14px}.phase{padding:0 6px}.phase h3{font-size:13px}.phase p{font-size:12px;line-height:1.45}.icon{width:66px;height:66px;font-size:25px}.num{width:38px;height:38px;margin-bottom:14px}.supportGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.recommendBox{grid-column:1 / span 1}.quoteBuilder{grid-column:2 / span 1;grid-row:2 / span 1}.infoBox{border-radius:14px;padding:20px}.infoBox h3{font-size:22px}.quoteBuilder h3{font-size:24px}.quoteToolbar{grid-template-columns:1fr auto;gap:18px;align-items:start}.quoteTotal{font-size:26px;min-width:108px;text-align:right}.priceRows{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}.priceRow{grid-template-columns:1fr 104px;gap:8px}.priceRow label{font-size:11px;line-height:1.25}.priceRow input{height:38px;padding:8px 9px}.approachQuotes{grid-template-columns:repeat(3,1fr);gap:8px}.approachQuote{padding:11px 10px}.approachQuote span{font-size:22px}.bottomActions{border-radius:14px;margin-top:20px}.actionBlock{padding:22px 24px}.confidenceBox{border-radius:14px}.exportControls{border-radius:12px}.patientSheet{border-radius:2px}.readOnlyLabel{white-space:nowrap}.workspaceNote{border-radius:0 10px 10px 0}.topbar{padding-left:2px}.pillBtn,.darkBtn{border-radius:8px}.patientInvestment{border-radius:12px}
+@media(max-width:1300px){.supportGrid{grid-template-columns:1fr}.quoteBuilder,.recommendBox{grid-column:auto;grid-row:auto}.priceRows{grid-template-columns:1fr}.titleRow{grid-template-columns:1fr}.patientQuote{max-width:560px}.heroGrid{grid-template-columns:280px minmax(0,1fr)}}
+
+
+
+/* v23 print/export + CTA clarity patch */
+.bottomActions{
+  background:transparent!important;
+  box-shadow:none!important;
+  gap:14px!important;
+  overflow:visible!important;
+  grid-template-columns:1fr 1fr!important;
+}
+.actionBlock{
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#061a34 0%,#09284d 70%,#0b315e 100%)!important;
+  border:1px solid rgba(233,204,122,.7)!important;
+  box-shadow:0 18px 38px rgba(6,26,52,.24), inset 0 1px 0 rgba(255,255,255,.08)!important;
+  position:relative;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.actionBlock+ .actionBlock{border-left:1px solid rgba(233,204,122,.7)!important}
+.actionBlock:hover{
+  transform:translateY(-2px);
+  box-shadow:0 24px 48px rgba(6,26,52,.30), inset 0 1px 0 rgba(255,255,255,.11)!important;
+  border-color:#f2d680!important;
+}
+.actionBlock:focus-visible{outline:3px solid rgba(201,154,53,.45);outline-offset:3px}
+.actionBlock b{font-size:14px!important;color:#f7d97f!important}
+.actionBlock span span{font-size:13px!important;color:#fff8ea!important;opacity:.9}
+.actionBlock .arrow{
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.10);border:1px solid rgba(242,214,128,.4);
+}
+.actionIcon{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  background:rgba(242,214,128,.12);border:1px solid rgba(242,214,128,.45);
+}
+.darkBtn#patientBtnTop{
+  background:linear-gradient(135deg,#071b35,#0b315e)!important;
+  border:1px solid #c99a35!important;
+  box-shadow:0 12px 28px rgba(6,26,52,.22)!important;
+}
+.pillBtn#confidenceJump{background:#fffaf0!important;border-color:#d5b15b!important}
+@media(max-width:900px){.bottomActions{grid-template-columns:1fr!important}}
+
+/* v24 WYSIWYG patient blueprint print/export patch
+   Print should isolate the same patient blueprint sheet shown in the builder,
+   not a compressed alternate layout. */
+@page{size:Letter landscape;margin:0.32in}
+@media print{
+  html,body{margin:0!important;background:#fff!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body *{visibility:hidden!important}
+  #patientStage,#patientStage *{visibility:visible!important}
+  #patientStage{
+    display:block!important;position:absolute!important;left:0!important;top:0!important;
+    width:100%!important;margin:0!important;padding:0!important;background:#fff!important;
+  }
+  #patientStage .exportControls,.noPrint{display:none!important;visibility:hidden!important}
+  .patientSheet{
+    display:block!important;
+    width:10.35in!important;
+    max-width:none!important;
+    margin:0 auto!important;
+    padding:0.34in!important;
+    border:1px solid #ded2bc!important;
+    box-shadow:none!important;
+    background:#fffdf8!important;
+    overflow:visible!important;
+    break-inside:auto!important;
+    page-break-inside:auto!important;
+  }
+  .sheetBrand,.sheetTitle,.sheetPhilosophy,.sheetGrid,.patientInvestment,.patientSheet .infoBox,.legal{
+    break-inside:avoid!important;page-break-inside:avoid!important;
+  }
+  .sheetWrap{display:block!important}
+  .content,.app{display:block!important;background:#fff!important;padding:0!important}
+}
+
+
+
+/* v25 single-sheet patient blueprint refinement */
+.patientSheet{
+  aspect-ratio:11/8.5;
+  width:min(1120px,100%);
+  max-width:1120px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+.sheetLower{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:14px;
+  margin-top:16px;
+}
+.sheetLower .infoBox{margin-top:0!important;padding:16px;min-height:0}
+.sheetLower .infoBox h3{font-size:20px;margin-bottom:9px}
+.sheetLower .muted{font-size:12px;line-height:1.45}
+.sheetMetaLine{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.patientInvestment.compact{border:1px solid #e8ddc8;background:#fff;padding:14px;margin-top:0!important}
+.patientInvestment.compact h3{font-family:var(--serif);font-size:20px;margin:0 0 8px;color:var(--ink)}
+.patientInvestment.compact .investmentRow{font-size:12px;padding:5px 0}
+.patientInvestment.compact .investmentTotal{font-size:18px;padding-top:8px;margin-top:5px}
+.patientInvestment.compact .tiny{font-size:10px;line-height:1.35}
+.patientSheet .questionLines{gap:8px;margin-top:8px}.patientSheet .questionLines div{height:18px}
+.patientSheet .legal{margin-top:13px;font-size:9px;line-height:1.35}
+
+@media print{
+  @page{size:Letter landscape;margin:0}
+  html,body{width:11in!important;height:8.5in!important;margin:0!important;background:#fff!important;overflow:hidden!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body *{visibility:hidden!important}
+  #patientStage,#patientStage *{visibility:visible!important}
+  #patientStage{display:block!important;position:absolute!important;left:0!important;top:0!important;width:11in!important;height:8.5in!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important}
+  #patientStage .exportControls{display:none!important;visibility:hidden!important}
+  .patientSheet{
+    position:absolute!important;left:0!important;top:0!important;
+    width:11in!important;height:8.5in!important;max-width:none!important;
+    margin:0!important;padding:.32in .38in!important;
+    border:0!important;box-shadow:none!important;background:#fffdf8!important;
+    overflow:hidden!important;page-break-after:avoid!important;page-break-before:avoid!important;page-break-inside:avoid!important;break-inside:avoid!important;
+    transform:none!important;box-sizing:border-box!important;
+  }
+  .sheetBrand{padding-bottom:.08in!important;margin-bottom:.12in!important}
+  .sheetBrand b{font-size:7.5pt!important}.sheetBrand .muted{font-size:6.8pt!important;margin:0!important}
+  .sheetContact{font-size:6.8pt!important;line-height:1.25!important}
+  .sheetTitle{grid-template-columns:1fr 1.05in!important;gap:.14in!important}
+  .sheetTitle h2{font-size:30pt!important;line-height:.86!important;letter-spacing:-.055em!important}
+  .sheetTitle .muted{font-size:7pt!important;margin:.03in 0 0!important}
+  .titleKicker{font-size:6.4pt!important;margin-bottom:.035in!important}
+  .sheetBadge{font-size:6.5pt!important;line-height:1.18!important;padding:.075in!important}
+  .sheetPhilosophy{margin:.12in 0!important;padding:.115in .16in!important}
+  .sheetPhilosophy h3{font-size:15.5pt!important;margin-bottom:.025in!important}
+  .sheetPhilosophy p{font-size:7.6pt!important;line-height:1.25!important}
+  .sheetGrid{grid-template-columns:1fr 2.1in!important;gap:.14in!important;align-items:start!important}
+  .patientSheet .roadmap{grid-template-columns:repeat(5,1fr)!important;gap:.045in!important}
+  .patientSheet .roadmap:before{top:.18in!important;left:8%!important;right:8%!important}
+  .patientSheet .num{width:.26in!important;height:.26in!important;margin-bottom:.055in!important;font-size:7pt!important;border-width:1px!important}
+  .patientSheet .icon{width:.36in!important;height:.36in!important;font-size:11pt!important;margin-bottom:.055in!important}
+  .patientSheet .phase h3{font-size:6.4pt!important;line-height:1.05!important;margin-bottom:.03in!important;letter-spacing:.035em!important}
+  .patientSheet .phase p{font-size:5.8pt!important;line-height:1.15!important}
+  .stackList{padding:.085in!important}
+  .sectionLabel{font-size:6pt!important;margin-bottom:.04in!important}
+  .stackItem{padding:.045in 0!important}.stackItem b{font-size:6.1pt!important}.stackItem p{font-size:5.7pt!important;line-height:1.14!important;margin-top:.02in!important}
+  .sheetLower{grid-template-columns:1fr 1fr!important;gap:.105in!important;margin-top:.105in!important}
+  .sheetLower .infoBox{padding:.09in!important;margin:0!important;border-radius:0!important;min-height:0!important}
+  .sheetLower .infoBox h3,.patientInvestment.compact h3{font-size:12.5pt!important;margin:0 0 .04in!important;line-height:1!important}
+  .sheetLower .muted{font-size:6.7pt!important;line-height:1.2!important}
+  .patientInvestment.compact{padding:.09in!important;margin:0!important;border-radius:0!important}
+  .patientInvestment.compact .investmentRow{font-size:6.5pt!important;padding:.025in 0!important}
+  .patientInvestment.compact .investmentTotal{font-size:10pt!important;padding-top:.035in!important;margin-top:.02in!important}
+  .patientInvestment.compact .tiny{font-size:5.8pt!important;line-height:1.15!important;margin-top:.025in!important}
+  .questionLines{gap:.04in!important;margin-top:.04in!important}.questionLines div{height:.12in!important}
+  .legal{font-size:5.5pt!important;line-height:1.12!important;margin-top:.07in!important;padding-top:.04in!important}
+}
+
+
+
+/* v26 Blueprint Canvas redesign: the artifact is the product */
+.patientSheet{
+  width:11in!important;height:8.5in!important;max-width:none!important;min-height:0!important;margin:22px auto 40px!important;
+  background:#fffdf7!important;border:1px solid #d9ccb6!important;box-shadow:0 18px 60px rgba(6,26,52,.18)!important;
+  padding:.36in .42in!important;color:#061a34!important;overflow:hidden!important;border-radius:0!important;position:relative!important;
+  display:grid!important;grid-template-rows:.83in 1.78in 2.03in 1.47in .34in!important;gap:.13in!important;
+}
+.patientSheet:before{content:"";position:absolute;inset:.17in;border:1px solid rgba(201,154,53,.18);pointer-events:none}
+.bpHeader{display:grid;grid-template-columns:2.75in 1fr 2.15in;gap:.24in;align-items:start;border-bottom:1.2px solid #c99a35;padding-bottom:.13in;position:relative;z-index:1}
+.bpLogo{display:flex;gap:.12in;align-items:center}.bpMark{font-family:var(--serif);font-size:48pt;line-height:.7;color:#b8862b}.bpBrand b{display:block;font-family:var(--serif);font-size:18pt;line-height:.9;letter-spacing:.06em;text-transform:uppercase}.bpBrand span{font-size:7.5pt;letter-spacing:.18em;text-transform:uppercase;color:#374151}.bpEdition{display:inline-block;margin-top:.10in;border:1px solid #c99a35;color:#9b6c13;font-size:7.5pt;letter-spacing:.16em;text-transform:uppercase;font-weight:900;padding:.045in .14in}
+.bpPatient .titleKicker{font-size:7pt!important;letter-spacing:.24em!important;margin:0 0 .035in!important}.bpPatient h2{font-family:var(--serif);font-size:30pt;line-height:.86;letter-spacing:-.045em;margin:0;color:#061a34}.bpPatient p{font-size:8.5pt!important;color:#344054!important;margin:.07in 0 0!important}.bpContact{text-align:right;font-size:7pt;line-height:1.35;color:#344054}.bpContact b{display:block;color:#061a34;font-size:8pt;margin-bottom:.025in}.bpBadge{display:inline-block;border:1.4px solid #c99a35;padding:.08in .16in;margin-top:.08in;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#061a34;background:#fffdf7;font-size:8pt;line-height:1.1;text-align:center}
+.bpTop{display:grid;grid-template-columns:2.35in 1fr;gap:.18in;position:relative;z-index:1}.bpPhilosophy{background:#061a34;color:#fff8ea;padding:.18in .18in}.bpPhilosophy h3{font-family:var(--serif);font-size:18pt;line-height:1;margin:0 0 .12in;color:#e9cc7a}.bpPhilosophy p{font-size:10pt;line-height:1.42;margin:0}.bpJourney{border:1px solid #eadcc4;background:#fff;padding:.17in .18in}.bpJourney .roadmap{height:100%;align-items:start;gap:.14in}.bpJourney .roadmap:before{top:.28in!important;left:9%!important;right:9%!important;background:repeating-linear-gradient(90deg,#c99a35 0,#c99a35 9px,transparent 9px,transparent 16px)!important;opacity:.55}.bpJourney .num{width:.34in!important;height:.34in!important;font-size:11pt!important;margin-bottom:.12in!important}.bpJourney .icon{width:.56in!important;height:.56in!important;font-size:18pt!important;margin-bottom:.10in!important}.bpJourney .phase h3{font-size:7.4pt!important;line-height:1.05!important;margin-bottom:.05in!important}.bpJourney .phase p{font-size:6.8pt!important;line-height:1.25!important;color:#263348!important}.bpMiddle{display:grid;grid-template-columns:3in 3.05in 1fr;gap:.15in;position:relative;z-index:1}.bpBlock{border:1px solid #e4d5bd;background:#fff;overflow:hidden}.bpBlock h3{margin:0;background:#061a34;color:#fff8ea;font-size:8.5pt;text-transform:uppercase;letter-spacing:.16em;padding:.075in .12in;text-align:center}.bpTable{width:100%;border-collapse:collapse;font-size:7.4pt}.bpTable th{font-size:6.7pt;text-transform:uppercase;letter-spacing:.08em;color:#061a34;text-align:left;border-bottom:1px solid #eadcc4;padding:.075in .09in}.bpTable td{vertical-align:top;border-bottom:1px solid #eadcc4;border-right:1px solid #eadcc4;padding:.07in .09in;line-height:1.25}.bpTable tr:last-child td{border-bottom:0}.bpPhase{font-weight:900;color:#061a34;font-size:10pt}.bpStackItem{display:grid;grid-template-columns:.78in 1fr;gap:.12in;border-bottom:1px solid #eadcc4;padding:.105in .13in;min-height:.38in;align-items:center}.bpStackItem:last-child{border-bottom:0}.bpStackItem b{font-size:10.5pt;letter-spacing:.04em;text-transform:uppercase;color:#0c3768}.bpStackItem p{font-size:7.5pt;line-height:1.25;color:#344054;margin:0}.bpIconLabel{display:flex;align-items:center;gap:.06in;font-weight:900;font-size:8pt;color:#061a34;text-transform:uppercase}.bpMiniIcon{width:.26in;height:.26in;border:1px solid #c99a35;border-radius:50%;display:grid;place-items:center;color:#c99a35}.bpInvestment{font-size:7.5pt}.bpInvestment table{width:100%;border-collapse:collapse}.bpInvestment td,.bpInvestment th{border-bottom:1px solid #eadcc4;padding:.065in .08in;text-align:left}.bpInvestment th{font-size:6.6pt;text-transform:uppercase;letter-spacing:.08em}.bpInvestment td:last-child,.bpInvestment th:last-child{text-align:right}.bpInvestment .total{background:#061a34;color:#fff8ea;font-weight:900;font-size:12pt}.bpNoPrice{padding:.16in;font-size:8pt;line-height:1.45;color:#344054}.bpNoPrice b{display:block;color:#a06f17;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.06in}.bpLower{display:grid;grid-template-columns:2.75in 2.75in 2.75in 1fr;gap:.12in;position:relative;z-index:1}.bpSmall{border:1px solid #e4d5bd;background:#fff;padding:.12in}.bpSmall h3{font-family:var(--serif);font-size:14pt;line-height:1;margin:0 0 .07in;color:#061a34}.bpSmall p,.bpSmall li{font-size:7.5pt;line-height:1.35;color:#344054;margin:0}.bpSmall ul{margin:.04in 0 0;padding-left:.16in}.bpSmall li{margin-bottom:.035in}.bpQuote{background:#061a34;color:#fff8ea;padding:.15in}.bpQuote p{font-family:var(--serif);font-size:12pt;line-height:1.28;color:#fff8ea;margin:0}.bpQuote span{display:block;margin-top:.10in;color:#e9cc7a;font-size:7pt;text-transform:uppercase;letter-spacing:.18em;font-weight:900}.bpLines{display:grid;gap:.08in;margin-top:.10in}.bpLines div{height:1px;background:#d8c8ae}.bpFooter{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-top:1px solid #c99a35;padding-top:.09in;font-size:7pt;letter-spacing:.12em;text-transform:uppercase;color:#4b5565;position:relative;z-index:1}.bpFooter .fMark{font-family:var(--serif);font-size:18pt;color:#b8862b;letter-spacing:0;text-transform:none}.bpFooter em{font-family:var(--serif);font-size:10pt;color:#9b6c13;letter-spacing:0;text-transform:none}.bpFooter span:last-child{text-align:right}.patientSheet .legal{font-size:5.8pt!important;letter-spacing:0!important;text-transform:none!important;color:#7a6e5f!important;border:0!important;margin:0!important;padding:0!important;text-align:right}.patientSheet .sheetBrand,.patientSheet .sheetTitle,.patientSheet .sheetPhilosophy,.patientSheet .sheetGrid,.patientSheet .sheetLower{display:none!important}
+@media(max-width:1300px){.patientSheet{transform:scale(.82);transform-origin:top left;margin-bottom:-1.15in!important}.sheetWrap.show{overflow-x:auto}}
+@media print{
+  @page{size:letter landscape;margin:0}
+  html,body{width:11in!important;height:8.5in!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important}
+  body *{visibility:hidden!important}.patientSheet,.patientSheet *{visibility:visible!important}
+  .app,.content,.sheetWrap.show{display:block!important;background:#fff!important;margin:0!important;padding:0!important;width:11in!important;height:8.5in!important;overflow:hidden!important}
+  .sidebar,.topbar,.context,.bottomActions,.playbook,.exportControls,.noPrint,.mainStage>*:not(.sheetWrap){display:none!important;visibility:hidden!important}
+  #patientStage{display:block!important;position:fixed!important;left:0!important;top:0!important;width:11in!important;height:8.5in!important;margin:0!important;padding:0!important;overflow:hidden!important;visibility:visible!important}
+  .patientSheet{position:absolute!important;left:0!important;top:0!important;width:11in!important;height:8.5in!important;margin:0!important;padding:.36in .42in!important;border:0!important;box-shadow:none!important;transform:none!important;page-break-after:avoid!important;break-after:avoid!important;overflow:hidden!important}
+}
+
+
+
+/* v27 polish: prevent document text collisions and tighten artifact typography */
+.patientSheet{
+  grid-template-rows:.74in 1.58in 2.18in 1.43in .30in!important;
+  gap:.105in!important;
+  padding:.32in .38in!important;
+}
+.bpHeader{grid-template-columns:2.55in 1fr 2.0in!important;gap:.18in!important;padding-bottom:.10in!important}
+.bpMark{font-size:42pt!important}.bpBrand b{font-size:16pt!important}.bpBrand span{font-size:6.8pt!important}.bpEdition{font-size:6.7pt!important;padding:.035in .11in!important;margin-top:.065in!important}
+.bpPatient h2{font-size:27pt!important;line-height:.88!important;max-height:.52in!important;overflow:hidden!important}.bpPatient p{font-size:7.3pt!important;line-height:1.15!important;margin-top:.045in!important}.bpPatient .titleKicker{font-size:6.3pt!important;margin-bottom:.025in!important}
+.bpContact{font-size:6.1pt!important;line-height:1.18!important}.bpContact b{font-size:7.2pt!important}.bpBadge{font-size:6.7pt!important;padding:.055in .11in!important;margin-top:.055in!important}
+.bpTop{grid-template-columns:2.28in 1fr!important;gap:.14in!important}.bpPhilosophy{padding:.145in .15in!important;overflow:hidden!important}.bpPhilosophy h3{font-size:15.5pt!important;margin-bottom:.075in!important}.bpPhilosophy p{font-size:8.0pt!important;line-height:1.34!important}
+.bpJourney{padding:.12in .14in!important;overflow:hidden!important}.bpJourney .roadmap{gap:.09in!important}.bpJourney .roadmap:before{top:.245in!important}.bpJourney .num{width:.28in!important;height:.28in!important;font-size:8.5pt!important;margin-bottom:.075in!important}.bpJourney .icon{width:.45in!important;height:.45in!important;font-size:14.5pt!important;margin-bottom:.065in!important}.bpJourney .phase{padding:0!important}.bpJourney .phase h3{font-size:6.25pt!important;line-height:1.02!important;margin-bottom:.032in!important;letter-spacing:.045em!important}.bpJourney .phase p{font-size:5.45pt!important;line-height:1.14!important;color:#263348!important;display:-webkit-box!important;-webkit-line-clamp:4!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+.bpMiddle{grid-template-columns:2.85in 3.10in 1fr!important;gap:.115in!important}.bpBlock{overflow:hidden!important}.bpBlock h3{font-size:7.4pt!important;letter-spacing:.13em!important;padding:.058in .09in!important;line-height:1.05!important;white-space:nowrap!important}.bpTable{font-size:6.25pt!important}.bpTable th{font-size:5.65pt!important;padding:.052in .064in!important}.bpTable td{font-size:6.05pt!important;line-height:1.16!important;padding:.050in .064in!important}.bpPhase{font-size:8.4pt!important}
+.bpStackItem{grid-template-columns:.72in 1fr!important;gap:.08in!important;padding:.055in .09in!important;min-height:.29in!important;max-height:.39in!important;overflow:hidden!important}.bpStackItem b{font-size:8.2pt!important;line-height:1.0!important}.bpStackItem p{font-size:5.95pt!important;line-height:1.12!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important}.bpIconLabel{font-size:6.45pt!important;gap:.04in!important;line-height:1.05!important}.bpMiniIcon{width:.20in!important;height:.20in!important;font-size:7pt!important;flex:0 0 auto!important}
+.bpNoPrice{font-size:6.8pt!important;line-height:1.28!important;padding:.11in!important}.bpInvestment{font-size:6.2pt!important}.bpInvestment td,.bpInvestment th{padding:.042in .06in!important}.bpInvestment th{font-size:5.5pt!important}.bpInvestment .total{font-size:9.5pt!important}
+.bpLower{grid-template-columns:2.6in 2.72in 2.55in 1fr!important;gap:.09in!important}.bpSmall{padding:.09in!important;overflow:hidden!important}.bpSmall h3{font-size:11.8pt!important;margin-bottom:.045in!important}.bpSmall p,.bpSmall li{font-size:6.45pt!important;line-height:1.22!important}.bpSmall ul{padding-left:.13in!important}.bpQuote{padding:.105in!important;overflow:hidden!important}.bpQuote p{font-size:9.6pt!important;line-height:1.16!important}.bpQuote span{font-size:5.7pt!important;margin-top:.07in!important}.bpLines{gap:.045in!important;margin-top:.06in!important}
+.bpFooter{font-size:5.8pt!important;padding-top:.055in!important}.bpFooter .fMark{font-size:14pt!important}.bpFooter em{font-size:8.5pt!important}.patientSheet .legal{font-size:4.9pt!important;line-height:1.08!important}
+@media print{.patientSheet{padding:.32in .38in!important}}
+
+
+
+/* v28 package-tier clarity + quote UI polish */
+.quoteBuilder{padding:22px!important;border-radius:16px!important;box-shadow:0 18px 46px rgba(6,26,52,.22)!important}
+.quoteToolbar{border-bottom:1px solid rgba(233,204,122,.22);padding-bottom:14px;margin-bottom:14px!important}
+.priceRows{background:rgba(255,255,255,.035);border:1px solid rgba(233,204,122,.16);border-radius:10px;padding:10px}
+.priceRow{border-top:0!important;padding-top:0!important}
+.priceRow label{color:#f6ead0!important;font-weight:650}
+.approachQuotes{margin-top:14px!important}
+.approachQuote{min-height:112px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.approachQuote:before{content:attr(data-tier-label);display:block;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#c9d4e7;margin-bottom:8px}
+.approachQuote[data-tier="Balanced"]{background:linear-gradient(180deg,rgba(233,204,122,.2),rgba(255,255,255,.06));border-color:rgba(233,204,122,.72)}
+.approachQuote[data-tier="Comprehensive"]{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border-color:rgba(255,248,234,.36)}
+.approachQuote span{letter-spacing:-.02em}.approachQuote small{line-height:1.35}.approachQuote small strong{display:block;color:#fff8ea;font-size:11px;margin-top:4px}.tierHint{display:block;color:#b7c4d8;font-size:10px;line-height:1.35;margin-top:5px}.quoteOptions{border-top-color:rgba(233,204,122,.22)!important}.quoteTotal:before{content:'Selected';display:block;font-family:var(--sans);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#c9d4e7;margin-bottom:5px}.supportGrid{align-items:start}.recommendBox textarea{min-height:126px!important}.infoBox{box-shadow:0 10px 32px rgba(6,26,52,.045)}
+
+
+
+/* RC1 mobile usability pass: keep desktop design, make setup/editing viable on phones */
+@media (max-width: 760px){
+  html,body{overflow-x:hidden;background:var(--paper)}
+  body{font-size:15px}
+  .app{display:block;min-height:100vh;background:var(--paper)!important}
+  .sidebar{position:relative;height:auto;padding:18px 16px 14px;background:linear-gradient(180deg,#071b35,#031125);border-bottom:3px solid var(--gold)}
+  .logo{margin-bottom:14px}.mark{font-size:38px}.brand b{font-size:18px}.brand span{font-size:8px;letter-spacing:.16em}
+  .sideTitle{display:none}.mastersCard{display:none}
+  .navItem{grid-template-columns:24px 1fr;padding:10px 8px;margin:2px 0;border-left:0;border-bottom:1px solid rgba(255,255,255,.08);border-radius:8px}
+  .navItem i{font-size:16px}.navItem b{font-size:12px}.navItem span{display:none}
+  .content{padding:0 14px 34px!important}
+  .topbar{position:sticky;top:0;z-index:20;height:auto;display:grid;grid-template-columns:1fr;gap:10px;padding:12px 0;background:rgba(255,253,248,.96);border-bottom:1px solid #e8ddc8;backdrop-filter:blur(10px)}
+  .clinicMini{display:block;max-width:none}.clinicMini label{display:block;margin-bottom:4px}.clinicMini input{width:100%;border:1px solid #ded2bc;border-radius:8px;background:#fffaf0;padding:11px 12px;font-size:15px}
+  .topbar .pillBtn,.topbar .darkBtn,.pillBtn,.darkBtn{width:100%;padding:13px 14px;border-radius:10px;text-align:center;justify-content:center}
+  .heroGrid{display:block!important;padding-top:18px!important}.context{border-right:0!important;padding-right:0!important;border-bottom:1px solid #e6d9c4;padding-bottom:14px;margin-bottom:22px}
+  .contextBlock{padding:14px!important;margin-top:14px!important;border-radius:12px;background:#fffdf8!important}
+  .field{margin:14px 0}.field input,.field select,.field textarea{font-size:16px}.field textarea{min-height:94px}
+  .addRow{grid-template-columns:1fr 44px}.addRow button{height:44px}.tag,.chip{font-size:12px;padding:8px 10px}
+  .edition{margin-bottom:14px;font-size:10px;padding:8px 10px}.titleRow{display:block!important}.titleKicker{font-size:10px}.mainTitle{font-size:48px!important;line-height:.9!important;letter-spacing:-.05em!important}.subline{font-size:10px;letter-spacing:.18em;margin-top:12px}
+  .patientQuote{margin-top:16px;padding:16px;border-radius:12px}.patientQuote h3{font-size:16px}.patientQuote p{font-size:15px;margin-top:12px}
+  .philosophy{grid-template-columns:40px 1fr!important;gap:12px!important;margin:18px 0!important}.philosophy:after{display:none}.compass{width:40px;height:40px;font-size:20px}.philosophy p{font-size:15px;line-height:1.45}.philosophy b{font-size:11px}
+  .blueprintPanel{padding:18px 14px!important;border-radius:14px!important;margin-top:16px}.panelHead{display:block;margin-bottom:16px}.panelHead h2{font-size:13px;margin-bottom:8px}.readOnlyLabel{font-size:8px}
+  .roadmap{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}.roadmap:before{display:none!important}.phase{text-align:left!important;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;padding:12px!important;border:1px solid #eadfce;border-radius:12px;background:#fffaf0}.phase .num{grid-row:1 / span 2;width:38px;height:38px;margin:0!important}.phase .icon{display:none}.phase h3{font-size:13px;margin:0 0 5px!important}.phase p{font-size:12px;line-height:1.4}
+  .supportGrid{display:block!important}.infoBox{margin-top:12px;padding:16px!important;border-radius:12px}.infoBox h3{font-size:20px}.checks{gap:7px}.checks div{font-size:12px}
+  .quoteBuilder{margin-top:12px}.quoteToolbar{display:block}.quoteTotal{text-align:left;margin-top:6px;font-size:28px}.priceRows{display:grid!important;grid-template-columns:1fr!important}.priceRow{grid-template-columns:1fr 122px!important}.priceRow input{font-size:16px;text-align:right}.approachQuotes{grid-template-columns:1fr!important}.quoteOptions{display:block}.quoteOptions label{margin:8px 0}
+  .recommendBox textarea{min-height:110px;font-size:16px}.bottomActions{grid-template-columns:1fr!important;gap:12px!important}.actionBlock{grid-template-columns:38px 1fr 24px!important;padding:18px!important}.actionIcon{width:38px;height:38px}.actionBlock b{font-size:12px!important}.actionBlock span{font-size:12px!important}
+  .confidenceChecks{grid-template-columns:1fr!important}.playbookGrid{grid-template-columns:1fr!important}.playbookCard{padding:15px}
+  .exportControls{display:block!important;margin:12px 0!important;padding:12px!important}.exportControls .left{display:block!important}.exportControls button{width:100%;margin-top:8px}.exportControls label{margin:10px 0;line-height:1.4}
+  .sheetWrap.show{overflow-x:auto!important;-webkit-overflow-scrolling:touch;padding:8px 0 22px;margin-left:-14px;margin-right:-14px}.patientSheet{width:1060px!important;min-width:1060px!important;max-width:none!important;transform:none!important;margin:0 14px!important;aspect-ratio:11/8.5!important}
+  .workspaceNote{font-size:11px;padding:11px;margin-top:12px}.researchGrid{grid-template-columns:1fr!important}
+}
+@media (min-width:761px) and (max-width:1100px){
+  .sidebar{height:auto;position:relative}.content{padding:0 22px 44px!important}.heroGrid{grid-template-columns:1fr!important}.context{border-right:0!important;padding-right:0!important;border-bottom:1px solid #e6d9c4;padding-bottom:20px}.supportGrid{grid-template-columns:1fr!important}.patientSheet{min-width:980px}.sheetWrap.show{overflow-x:auto}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="mark">M</div><div class="brand"><b>MASTERS</b><span>Treatment Blueprint</span></div></div>
+    <div class="sideTitle">Workspace</div>
+    <div class="navItem active"><i>▣</i><div><b>Blueprint</b><span>Overview</span></div></div>
+    <div class="navItem"><i>◇</i><div><b>Patient</b><span>Profile & Goals</span></div></div>
+    <div class="navItem"><i>◌</i><div><b>Assessment</b><span>Concerns & Priorities</span></div></div>
+    <div class="navItem"><i>✦</i><div><b>Strategy</b><span>Build Blueprint</span></div></div>
+    <div class="navItem"><i>✓</i><div><b>Follow-Up</b><span>Playbook · Internal</span></div></div>
+    <div class="navItem"><i>☑</i><div><b>Consultation Checklist</b><span>Before You Export</span></div></div>
+    <div class="mastersCard"><b>Masters Edition</b><p>Included with Masters of Masterclasses as a premium consultation framework for BTL clinic owners.</p></div>
+  </aside>
+
+  <main class="content">
+    <div class="topbar noPrint">
+      <div class="clinicMini"><label>Clinic</label><input id="clinic" value="Astra Med Spa"></div>
+      <button class="pillBtn" id="confidenceJump">Consultation Checklist</button>
+      <button class="darkBtn" id="patientBtnTop">Generate Patient Blueprint</button>
+    </div>
+
+    <div class="heroGrid">
+      <section class="context noPrint">
+        <p class="sectionLabel">Patient</p>
+        <h2 class="patientName" id="patientPreview">Sarah Johnson</h2>
+        <p class="muted"><span id="agePreview">52</span> years old · <span id="goalPreview">Facial Rejuvenation</span></p>
+
+        <div class="contextBlock" id="patientSection" data-step="Step 01 · Patient"><span class="editHint">Editable patient inputs</span>
+          <div class="field"><label>Patient Name</label><input id="patient" value="Sarah Johnson"></div>
+          <div class="field"><label>Age</label><input id="age" value="52"></div>
+          <div class="field"><label>Primary Goal</label><select id="goal"></select></div>
+          <div class="field"><label>Treatment Approach</label><select id="depth"><option>Conservative</option><option selected>Balanced</option><option>Comprehensive</option></select></div>
+          <div class="field"><label>Timeline / Context</label><input id="timeline" value="Upcoming wedding in 5 months"></div>
+        </div>
+
+        <div class="contextBlock" id="clinicSection" data-step="Step 02 · Clinic Setup"><span class="editHint">Clinic-controlled details</span>
+          <div class="field"><label>Provider</label><input id="provider" value="Dr. Amanda Lee"></div>
+          <div class="field"><label>Contact Details</label><input id="phone" placeholder="Phone" value="(305) 555-0192"><input id="email" placeholder="Email" value="hello@astramedspa.com" style="margin-top:7px"><input id="website" placeholder="Website" value="www.astramedspa.com" style="margin-top:7px"><input id="booking" placeholder="Booking link" value="Book Your Next Appointment" style="margin-top:7px"></div>
+          <div class="field"><label>Available BTL Technologies</label><div class="addRow"><select id="deviceSelect"></select><button id="addDevice" type="button">+</button></div><div class="tagWrap" id="inventoryTags"></div></div>
+          <div class="field"><label>Supporting Services</label><div class="chips" id="serviceChips"></div></div>
+        </div>
+
+        <div class="contextBlock" id="safetySection" data-step="Step 03 · Review"><span class="editHint">Internal review only</span>
+          <div class="field"><label>Candidacy Prompts</label><div class="chips" id="flagChips"></div><p class="tiny">Internal prompts only. Provider must confirm candidacy using training, manuals, and clinical judgment.</p></div>
+        </div>
+        <button class="darkBtn" id="buildBtn" style="width:100%;margin-top:18px">Build Blueprint</button>
+        <div class="workspaceNote">Use the left side to modify the blueprint. The main workspace is review-first, with editable Provider Notes and Treatment Options Builder below.</div>
+      </section>
+
+      <section class="mainStage">
+        <div class="edition">♛ Masters Edition</div>
+        <div class="titleRow">
+          <div>
+            <div class="titleKicker">Your Personalized Plan</div>
+            <h1 class="mainTitle">Treatment <em>Blueprint</em></h1>
+            <p class="subline">Strategic. Personalized. Purposeful.</p>
+          </div>
+          <div class="patientQuote">
+            <h3 id="quoteName">Sarah Johnson</h3>
+            <span class="muted">Age <span id="quoteAge">52</span> · Patient Goal</span>
+            <p><span class="quoteMarks">“</span><span id="quoteText">I want to look refreshed and feel confident for my upcoming wedding in 5 months.</span><span class="quoteMarks">”</span></p>
+          </div>
+        </div>
+        <div class="philosophy"><div class="compass">✧</div><div><b>Our Philosophy</b><p>The best aesthetic outcomes are achieved through <strong>progressive treatment</strong>, not individual procedures.</p></div></div>
+
+        <section class="blueprintPanel" id="blueprintPanel"></section>
+
+        <section class="supportGrid" id="supportGrid"></section>
+
+        <section class="confidenceBox noPrint" id="confidenceBox"><h3>Blueprint Consultation Checklist</h3><div class="confidenceChecks"><label><input type="checkbox"> Goals discussed clearly</label><label><input type="checkbox"> Timeline reviewed</label><label><input type="checkbox"> Expectations explained</label><label><input type="checkbox"> Candidacy reviewed</label><label><input type="checkbox"> Maintenance explained</label><label><input type="checkbox"> Questions answered</label></div></section>
+
+        <section class="bottomActions noPrint">
+          <button class="actionBlock" id="patientBtn"><span class="actionIcon">▤</span><span><b>Generate Patient Blueprint</b><span>Provide your patient with a clear plan</span></span><span class="arrow">›</span></button>
+          <button class="actionBlock" id="playbookBtn"><span class="actionIcon">▧</span><span><b>Patient Communication Plan</b><span>Internal plan for communication & follow-up</span></span><span class="arrow">›</span></button>
+        </section>
+
+        <section class="playbook" id="playbook"></section>
+        <section class="sheetWrap" id="patientStage"></section>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const devices=['EMFACE','EMSCULPT NEO','EMSELLA','EMTONE','EXION Face','EXION Body','EXION Clear RF','EXION Fractional RF','EXOMIND','EMBODY'];
+const services=['Clinical Photography','Medical-Grade Skincare','Injectables','Membership','Nutrition Coaching','Hormone/Wellness Consult','IV Therapy','PRP','Microneedling','Laser/IPL'];
+const flags=['Pregnancy','Implanted metal/device','Pacemaker/ICD','Active infection','Recent surgery','Uncontrolled condition','Medication review','Provider clearance needed'];
+const goals={
+ 'Facial Rejuvenation':['EMFACE','EXION Face','EXION Fractional RF','EXION Clear RF'],
+ 'Lift & Tighten':['EMFACE','EXION Face','EXION Body','EXION Fractional RF'],
+ 'Skin Quality & Texture':['EXION Face','EXION Fractional RF','EXION Clear RF','EMFACE'],
+ 'Body Contouring':['EMSCULPT NEO','EMTONE','EXION Body'],
+ 'Muscle Tone & Strength':['EMSCULPT NEO','EMBODY','EMSELLA'],
+ 'Pelvic Wellness':['EMSELLA','EMBODY','EMSCULPT NEO'],
+ 'Cellulite / Firming':['EMTONE','EXION Body','EMSCULPT NEO'],
+ 'Mind-Body Wellness':['EXOMIND','EMSELLA','EMSCULPT NEO']
+};
+const info={
+ 'EMFACE':{type:'Core',role:'Builds facial muscle support while improving tone and lift naturally — no needles, no downtime.',phase:'FOUNDATION',icon:'◡',caution:'Review implants, metal, active conditions, and device-specific contraindications.'},
+ 'EXION Face':{type:'Enhancer',role:'Improves skin laxity, texture, and collagen support for firmer, smoother skin.',phase:'REFINE',icon:'✧',caution:'Review RF candidacy, recent procedures, and active skin conditions.'},
+ 'EXION Fractional RF':{type:'Enhancer',role:'Supports fractional skin remodeling for texture, fine lines, and collagen-focused plans.',phase:'REFINE',icon:'✦',caution:'Review downtime tolerance, pigment risk, and active skin disease.'},
+ 'EXION Clear RF':{type:'Enhancer',role:'Supports skin clarity, tone, and texture when skin quality is the priority.',phase:'REFINE',icon:'◌',caution:'Review irritation, active lesions, photosensitivity, and skincare regimen.'},
+ 'EMSCULPT NEO':{type:'Core',role:'Supports body contouring by pairing muscle stimulation with heating-based fat-reduction positioning.',phase:'FOUNDATION',icon:'▥',caution:'Review metal, implanted devices, hernia/surgical history, and treatment-area eligibility.'},
+ 'EXION Body':{type:'Enhancer',role:'Supports body tissue quality, tightening, and firming-focused treatment plans.',phase:'REFINE',icon:'△',caution:'Review RF candidacy, active inflammation, and treatment-area contraindications.'},
+ 'EMTONE':{type:'Enhancer',role:'Supports cellulite, texture, and body firming goals as a layered treatment.',phase:'REFINE',icon:'≈',caution:'Review treatment-area sensitivity and active skin conditions.'},
+ 'EMSELLA':{type:'Core',role:'Supports pelvic floor wellness and urinary leakage concerns through pelvic floor stimulation.',phase:'FOUNDATION',icon:'◉',caution:'Review pregnancy, implanted devices, IUD/metal considerations, and pelvic health history.'},
+ 'EMBODY':{type:'Support',role:'Supports muscle stimulation goals where appropriate under clinic protocol.',phase:'OPTIMIZE',icon:'◇',caution:'Review implanted devices, recent surgery, and provider clearance needs.'},
+ 'EXOMIND':{type:'Support',role:'Supports mind-body wellness positioning within appropriate provider scope.',phase:'OPTIMIZE',icon:'☾',caution:'Review mental health history, contraindications, and scope of care.'}
+};
+const state={inventory:['EMFACE','EXION Face'],services:['Clinical Photography','Medical-Grade Skincare','Membership'],pricing:{},packageName:'',includePricing:false,last:null};
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function money(n){let v=Number(n||0);return v>0?'$'+v.toLocaleString(undefined,{maximumFractionDigits:0}):'—'}
+function priceVal(name){return Number(String(state.pricing[name]||'').replace(/[^0-9.]/g,''))||0}
+function priceKey(item){return (typeof item==='string')?item:(item.priceKey||item.name)}
+function priceFor(item){return priceVal(priceKey(item))}
+function init(){devices.forEach(d=>{let o=new Option(d,d);$('deviceSelect').add(o)});Object.keys(goals).forEach(g=>{$('goal').add(new Option(g,g))});$('goal').value='Facial Rejuvenation';renderInventory();renderChips('serviceChips',services,state.services);renderChips('flagChips',flags,[]);bind();build(false)}
+function bind(){['clinic','patient','age','goal','depth','timeline','provider','phone','email','website','booking'].forEach(id=>$(id).addEventListener('input',()=>build(false)));['goal','depth'].forEach(id=>$(id).addEventListener('change',()=>build(false)));$('addDevice').onclick=()=>{let v=$('deviceSelect').value;if(v&&!state.inventory.includes(v)){state.inventory.push(v);renderInventory();build(false)}};$('buildBtn').onclick=()=>build(true);$('patientBtn').onclick=()=>showPatient();$('patientBtnTop').onclick=()=>showPatient();$('playbookBtn').onclick=()=>showPlaybook();$('confidenceJump').onclick=()=>$('confidenceBox').scrollIntoView({behavior:'smooth'});document.querySelectorAll('.navItem').forEach((n,i)=>n.onclick=()=>{let targets=['blueprintPanel','patientSection','safetySection','blueprintPanel','playbook','confidenceBox'];let t=$(targets[i]);if(targets[i]==='playbook'){showPlaybook();return;}if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})}
+function renderInventory(){let box=$('inventoryTags');box.innerHTML=state.inventory.map(d=>`<span class="tag">${esc(d)} <button data-r="${esc(d)}">×</button></span>`).join('');box.querySelectorAll('button').forEach(b=>b.onclick=()=>{state.inventory=state.inventory.filter(x=>x!==b.dataset.r);renderInventory();build(false)})}
+function renderChips(id,items,selected){let box=$(id);box.innerHTML=items.map(x=>`<span class="chip ${selected.includes(x)?'active':''}" data-v="${esc(x)}">${esc(x)}</span>`).join('');box.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{c.classList.toggle('active');if(id==='serviceChips')state.services=[...box.querySelectorAll('.active')].map(x=>x.dataset.v);build(false)})}
+function fitItems(goal){return (goals[goal]||[]).filter(d=>state.inventory.includes(d)).map(d=>({name:d,...info[d]}))}
+function support(goal,depth){let s=[];if(state.services.includes('Clinical Photography'))s.push({name:'Consult & Plan',phase:'DISCOVER',icon:'☏',role:'In-depth consultation, assessment, photos or measurements, and goal alignment.'});if(state.services.includes('Medical-Grade Skincare')&&(goal.includes('Facial')||goal.includes('Skin')||goal.includes('Lift')))s.push({name:'Medical Skincare',priceKey:'Medical-Grade Skincare',phase:'PREPARE',icon:'✦',role:'Home-care support to improve readiness, consistency, and long-term skin quality.'});if(depth!=='Conservative'&&state.services.includes('Injectables')&&(goal.includes('Facial')||goal.includes('Lift')))s.push({name:'Injectables',priceKey:'Injectables',phase:'OPTIMIZE',icon:'◒',role:'Optional provider-directed volume or wrinkle support when appropriate.'});if(state.services.includes('Nutrition Coaching')&&(goal.includes('Body')||goal.includes('Muscle')))s.push({name:'Nutrition Coaching',priceKey:'Nutrition Coaching',phase:'PREPARE',icon:'▤',role:'Behavior support to improve consistency around body-composition goals.'});if(state.services.includes('Membership'))s.push({name:'Long-Term Success',priceKey:'Membership',phase:'MAINTAIN',icon:'✺',role:'Personalized maintenance and review cadence to protect and extend results over time.'});return s}
+function planFor(depth){let goal=$('goal').value;let count=depth==='Conservative'?1:depth==='Balanced'?2:4;let devices=fitItems(goal).slice(0,count);let supp=support(goal,depth);let start=supp.filter(x=>x.phase==='DISCOVER'||x.phase==='PREPARE');let end=supp.filter(x=>x.phase==='MAINTAIN');let other=supp.filter(x=>!start.includes(x)&&!end.includes(x));let items=[...start,...devices,...other,...end];if(!items.find(x=>x.phase==='DISCOVER'))items.unshift({name:'Consult & Plan',phase:'DISCOVER',icon:'☏',role:'Clarify goals, candidacy, timeline, and priorities before treatment begins.'});if(!items.find(x=>x.phase==='MAINTAIN'))items.push({name:'Progress Review',phase:'MAINTAIN',icon:'✓',role:'Evaluate results and refine the plan to support long-term outcomes.'});return items.slice(0,5)}
+function currentPlan(){return planFor($('depth').value)}
+function totalFor(items){return items.reduce((sum,x)=>sum+priceFor(x),0)}
+function data(){let items=currentPlan();return {clinic:$('clinic').value||'Your Clinic',patient:$('patient').value||'Patient',age:$('age').value||'',goal:$('goal').value,depth:$('depth').value,timeline:$('timeline').value||'',provider:$('provider').value||'',phone:$('phone').value||'',email:$('email').value||'',website:$('website').value||'',booking:$('booking').value||'',items,total:totalFor(items),flags:[...$('flagChips').querySelectorAll('.active')].map(x=>x.dataset.v),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||''),packageName:state.packageName||''}}
+function rationale(d){let names=d.items.map(x=>x.name).filter(x=>!['Consult & Plan','Progress Review','Long-Term Success'].includes(x));return names.length?`This blueprint connects ${names.slice(0,3).join(', ')} into a staged plan designed around ${d.goal.toLowerCase()}, available clinic technology, and the patient’s timeline. The goal is to give the provider a clear consultation path rather than a list of disconnected treatments.`:`This blueprint should be reviewed by the provider and adjusted based on available technology, candidacy, and clinic protocol.`}
+function roadmapHTML(items){return `<div class="roadmap">${items.map((x,i)=>`<div class="phase"><div class="num">${i+1}</div><div class="icon">${esc(x.icon||'✧')}</div><h3>${esc(x.name)}</h3><p>${esc(x.role)}</p></div>`).join('')}</div>`}
+function stackHTML(items){return items.map(x=>`<div class="stackItem"><b>${esc(x.name)}</b><p>${esc(x.phase)} · ${esc(x.role)}</p></div>`).join('')}
+function pricingUniverse(){let names=new Set();['Conservative','Balanced','Comprehensive'].forEach(d=>planFor(d).forEach(x=>{let k=priceKey(x);if(!['Consult & Plan','Progress Review'].includes(x.name))names.add(k)}));state.services.forEach(s=>{if(['Medical-Grade Skincare','Injectables','Nutrition Coaching','Membership'].includes(s))names.add(s)});return [...names]}
+function quoteHTML(d){let names=pricingUniverse();let rows=names.map(n=>`<div class="priceRow"><label>${esc(n)}</label><input inputmode="decimal" data-price="${esc(n)}" placeholder="Add quote" value="${esc(state.pricing[n]||'')}"></div>`).join('');let cards=['Conservative','Balanced','Comprehensive'].map(depth=>{let items=planFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;return `<div class="approachQuote"><b>${depth}</b><span data-total="${depth}">${money(total)}</span><small data-count="${depth}">${priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate'}</small></div>`}).join('');return `<div class="infoBox quoteBuilder isEditable"><div class="quoteToolbar"><div><h3>Treatment Options Builder</h3><p class="muted">Add clinic pricing once. Totals calculate for each blueprint approach.</p></div><div class="quoteTotal" data-total="selected">${money(d.total)}</div></div><div class="priceRows">${rows}</div><div class="approachQuotes">${cards}</div><div class="quoteOptions"><label><input type="checkbox" id="includePricing" ${state.includePricing?'checked':''}> Include recommended treatment options on patient blueprint</label></div><div class="quoteNote"><strong>Internal by default:</strong> pricing helps the clinic know what to quote. Turn on the checkbox only when the clinic wants pricing included on the patient blueprint.</div></div>`}
+function updateQuoteDisplays(){['Conservative','Balanced','Comprehensive'].forEach(depth=>{let items=planFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;let t=document.querySelector(`[data-total="${depth}"]`);let c=document.querySelector(`[data-count="${depth}"]`);if(t)t.textContent=money(total);if(c)c.textContent=priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate';});let sel=document.querySelector('[data-total="selected"]');if(sel)sel.textContent=money(totalFor(planFor($('depth').value)));}
+function build(scroll){let d=data();state.last=d;$('patientPreview').textContent=d.patient;$('agePreview').textContent=d.age||'—';$('goalPreview').textContent=d.goal;$('quoteName').textContent=d.patient.toUpperCase();$('quoteAge').textContent=d.age||'—';$('quoteText').textContent=d.timeline?`I want to feel confident for ${d.timeline.toLowerCase()}.`:`I want a clear plan that feels realistic and personal.`;$('blueprintPanel').innerHTML=`<div class="panelHead"><div><h2>Your Personalized Blueprint</h2><p class="tiny">Read-only roadmap. Modify patient goals, clinic inventory, and approach on the left.</p></div><span class="readOnlyLabel">Blueprint Preview</span></div>${roadmapHTML(d.items)}`;$('supportGrid').innerHTML=`<div class="infoBox"><h3>Why This Plan</h3><p class="muted">${esc(rationale(d))}</p></div><div class="infoBox"><h3>What You Can Expect</h3><div class="checks"><div>Natural-looking improvement</div><div>Gradual, lasting results</div><div>Minimal or managed downtime</div><div>Personalized at every step</div></div></div><div class="infoBox recommendBox isEditable"><h3>Provider Notes</h3><textarea id="clinicalNotes" placeholder="Add clinical notes, patient-specific recommendations, timing, cautions, or next steps...">${esc(d.suggestions)}</textarea><p class="tiny">Editable. This appears on the patient blueprint. Follow-up templates and internal quote details do not.</p></div>${quoteHTML(d)}`;let notes=$('clinicalNotes');notes.oninput=()=>{state.last.suggestions=notes.value;};document.querySelectorAll('[data-price]').forEach(inp=>{inp.oninput=()=>{state.pricing[inp.dataset.price]=inp.value;updateQuoteDisplays();};inp.onblur=()=>{renderPatient(false)}});let inc=$('includePricing');if(inc)inc.onchange=()=>{state.includePricing=inc.checked;renderPatient(false)};renderPatient(false);renderPlaybook(false);if(scroll)$('blueprintPanel').scrollIntoView({behavior:'smooth',block:'center'});}
+function investmentHTML(d){if(!state.includePricing)return '';let priced=d.items.filter(x=>priceFor(x)>0);if(!priced.length)return '';let rows=priced.map(x=>`<div class="investmentRow"><span>${esc(x.name)}</span><strong>${money(priceVal(x.name))}</strong></div>`).join('');return `<section class="patientInvestment"><h3>Estimated Investment</h3>${rows}<div class="investmentTotal"><span>Total</span><strong>${money(totalFor(d.items))}</strong></div><p class="tiny">Pricing shown only when clinic chooses to include it. Final recommendations, candidacy, and investment should be confirmed by the provider.</p></section>`}
+function exportPatientHTML(){renderPatient(false);let content=$('patientStage').innerHTML;let css=[...document.querySelectorAll('style')].map(s=>s.innerHTML).join('\n');let html=`<!doctype html><html><head><meta charset="utf-8"><title>Treatment Blueprint</title><style>${css}body{background:#fff}.patientSheet{margin:24px auto}.exportControls,.sidebar,.topbar,.context,.bottomActions,.playbook{display:none!important}
+
+/* v23 print/export + CTA clarity patch */
+.bottomActions{
+  background:transparent!important;
+  box-shadow:none!important;
+  gap:14px!important;
+  overflow:visible!important;
+  grid-template-columns:1fr 1fr!important;
+}
+.actionBlock{
+  border-radius:14px!important;
+  background:linear-gradient(135deg,#061a34 0%,#09284d 70%,#0b315e 100%)!important;
+  border:1px solid rgba(233,204,122,.7)!important;
+  box-shadow:0 18px 38px rgba(6,26,52,.24), inset 0 1px 0 rgba(255,255,255,.08)!important;
+  position:relative;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.actionBlock+ .actionBlock{border-left:1px solid rgba(233,204,122,.7)!important}
+.actionBlock:hover{
+  transform:translateY(-2px);
+  box-shadow:0 24px 48px rgba(6,26,52,.30), inset 0 1px 0 rgba(255,255,255,.11)!important;
+  border-color:#f2d680!important;
+}
+.actionBlock:focus-visible{outline:3px solid rgba(201,154,53,.45);outline-offset:3px}
+.actionBlock b{font-size:14px!important;color:#f7d97f!important}
+.actionBlock span span{font-size:13px!important;color:#fff8ea!important;opacity:.9}
+.actionBlock .arrow{
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.10);border:1px solid rgba(242,214,128,.4);
+}
+.actionIcon{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  background:rgba(242,214,128,.12);border:1px solid rgba(242,214,128,.45);
+}
+.darkBtn#patientBtnTop{
+  background:linear-gradient(135deg,#071b35,#0b315e)!important;
+  border:1px solid #c99a35!important;
+  box-shadow:0 12px 28px rgba(6,26,52,.22)!important;
+}
+.pillBtn#confidenceJump{background:#fffaf0!important;border-color:#d5b15b!important}
+@media(max-width:900px){.bottomActions{grid-template-columns:1fr!important}}
+
+/* Print only the patient blueprint sheet as a single landscape page */
+@page{size:Letter landscape;margin:0.28in}
+@media print{
+  html,body{width:11in;height:8.5in;margin:0!important;background:#fff!important;overflow:hidden!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body *{visibility:hidden!important}
+  #patientStage,#patientStage *{visibility:visible!important}
+  #patientStage{
+    display:block!important;position:absolute!important;left:0!important;top:0!important;
+    width:100%!important;margin:0!important;padding:0!important;background:#fff!important;
+  }
+  #patientStage .exportControls{display:none!important;visibility:hidden!important}
+  .patientSheet{
+    display:block!important;
+    width:10.44in!important;
+    height:7.92in!important;
+    max-width:none!important;
+    margin:0 auto!important;
+    padding:.34in!important;
+    border:0!important;box-shadow:none!important;background:#fffdf8!important;
+    overflow:hidden!important;
+    page-break-inside:avoid!important;break-inside:avoid!important;
+  }
+  .sheetBrand{padding-bottom:.10in!important;margin-bottom:.16in!important}
+  .sheetTitle{grid-template-columns:1fr 1.22in!important;gap:.18in!important}
+  .sheetTitle h2{font-size:34pt!important;line-height:.88!important;letter-spacing:-.05em!important}
+  .sheetBadge{font-size:8pt!important;padding:.08in!important}
+  .titleKicker{font-size:7pt!important;margin-bottom:.04in!important}
+  .sheetContact,.sheetBrand .muted{font-size:7.5pt!important;line-height:1.35!important}
+  .sheetPhilosophy{margin:.16in 0!important;padding:.16in .20in!important}
+  .sheetPhilosophy h3{font-size:18pt!important;margin-bottom:.04in!important}
+  .sheetPhilosophy p{font-size:9.5pt!important;line-height:1.35!important}
+  .sheetGrid{grid-template-columns:1fr 2.05in!important;gap:.16in!important}
+  .patientSheet .roadmap{grid-template-columns:repeat(5,1fr)!important;gap:.06in!important}
+  .patientSheet .roadmap:before{top:.22in!important;left:8%!important;right:8%!important}
+  .patientSheet .num{width:.30in!important;height:.30in!important;margin-bottom:.08in!important;font-size:8.5pt!important}
+  .patientSheet .icon{width:.42in!important;height:.42in!important;font-size:14pt!important;margin-bottom:.07in!important}
+  .patientSheet .phase{padding:0 .02in!important}
+  .patientSheet .phase h3{font-size:7.2pt!important;line-height:1.12!important;margin-bottom:.04in!important}
+  .patientSheet .phase p{font-size:6.8pt!important;line-height:1.22!important}
+  .stackList{padding:.11in!important}
+  .stackItem{padding:.065in 0!important}
+  .stackItem b{font-size:7pt!important}.stackItem p{font-size:6.8pt!important;line-height:1.25!important}
+  .patientSheet .infoBox{padding:.12in!important;margin-top:.12in!important;border-radius:0!important}
+  .patientSheet .infoBox h3{font-size:15pt!important;margin-bottom:.06in!important}
+  .patientSheet .muted{font-size:8.2pt!important;line-height:1.35!important}
+  .patientInvestment{padding:.11in!important;margin-top:.10in!important}
+  .patientInvestment h3{font-size:14pt!important;margin-bottom:.05in!important}
+  .investmentRow{padding:.045in 0!important;font-size:7.2pt!important}
+  .investmentTotal{font-size:15pt!important;padding-top:.06in!important;margin-top:.04in!important}
+  .questionLines{gap:.06in!important;margin-top:.05in!important}.questionLines div{height:.16in!important}
+  .legal{font-size:6.2pt!important;line-height:1.22!important;margin-top:.10in!important;padding-top:.06in!important}
+  .patientSheet section{break-inside:avoid!important;page-break-inside:avoid!important}
+}
+
+</style></head><body>${content}</body></html>`;let blob=new Blob([html],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='patient-treatment-blueprint.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function renderPatient(show){let d={...data(),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||'')};let investment=investmentHTML(d);$('patientStage').innerHTML=`<div class="exportControls noPrint"><div><strong>Patient Blueprint Preview</strong><br><span class="tiny">Preview the patient-facing version below. Follow-up templates remain internal.</span></div><div class="left"><label><input type="checkbox" id="patientPricingToggle" ${state.includePricing?'checked':''}> Include pricing</label><button type="button" id="printBlueprint">Print Exact Sheet / Save PDF</button><button type="button" id="downloadBlueprint">Download Patient Blueprint</button></div></div><main class="patientSheet"><div class="sheetBrand"><div><b>Masters Edition</b><p class="muted">Personalized Treatment Blueprint</p></div><div class="sheetContact"><strong>${esc(d.clinic)}</strong><br>${esc(d.provider)}<br>${[d.phone,d.email,d.website,d.booking].filter(Boolean).map(esc).join('<br>')}</div></div><div class="sheetTitle"><div><div class="titleKicker">Prepared for ${esc(d.patient)}</div><h2>${esc(d.goal)}<br>Treatment Blueprint</h2><p class="muted">Prepared by ${esc(d.clinic)}${d.provider?' · '+esc(d.provider):''}</p></div><div class="sheetBadge">Patient<br>Roadmap</div></div><section class="sheetPhilosophy"><h3>Treatment Philosophy</h3><p>The best aesthetic outcomes are achieved through progressive treatment, not individual procedures. This blueprint outlines a clinic-reviewed roadmap to discuss with your provider.</p></section><div class="sheetGrid"><section>${roadmapHTML(d.items)}</section><aside class="stackList"><div class="sectionLabel">Planned Stack</div>${stackHTML(d.items)}</aside></div><section class="infoBox" style="margin-top:20px"><h3>Why This Blueprint</h3><p class="muted">${esc(rationale(d))}</p></section>${investment}<section class="infoBox" style="margin-top:16px"><h3>Provider Notes</h3><p class="muted">${d.suggestions?esc(d.suggestions):'Your provider will personalize this section with recommendations, timing, next steps, or details discussed during your consultation.'}</p></section><section class="infoBox" style="margin-top:16px"><h3>Questions for Your Provider</h3><div class="questionLines"><div></div><div></div><div></div></div></section><p class="legal">Provider-review roadmap only. This is not medical clearance, diagnosis, a guarantee of outcome, pricing quote, or a replacement for manufacturer guidance, owner manuals, device training, or clinical judgment.</p></main>`;let pToggle=$('patientPricingToggle');if(pToggle)pToggle.onchange=()=>{state.includePricing=pToggle.checked;let inc=$('includePricing');if(inc)inc.checked=state.includePricing;renderPatient(false)};let print=$('printBlueprint');if(print)print.onclick=()=>{ $('patientStage').classList.add('show'); setTimeout(()=>window.print(),80); };let dl=$('downloadBlueprint');if(dl)dl.onclick=()=>exportPatientHTML();if(show){$('playbook').classList.remove('show');$('patientStage').classList.add('show');$('patientStage').scrollIntoView({behavior:'smooth',block:'start'})}}
+
+function investmentHTML(d){if(!state.includePricing)return '';let priced=d.items.filter(x=>priceFor(x)>0);if(!priced.length)return '';let rows=priced.map(x=>`<div class="investmentRow"><span>${esc(x.name)}</span><strong>${money(priceFor(x))}</strong></div>`).join('');return `<section class="patientInvestment compact"><h3>Estimated Investment</h3>${rows}<div class="investmentTotal"><span>Total</span><strong>${money(totalFor(d.items))}</strong></div><p class="tiny">Pricing shown only when clinic chooses to include it. Final recommendations, candidacy, and investment should be confirmed by the provider.</p></section>`}
+function renderPatient(show){let d={...data(),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||'')};let investment=investmentHTML(d);$('patientStage').innerHTML=`<div class="exportControls noPrint"><div><strong>Patient Blueprint Preview</strong><br><span class="tiny">Preview the patient-facing version below. Follow-up templates remain internal.</span></div><div class="left"><label><input type="checkbox" id="patientPricingToggle" ${state.includePricing?'checked':''}> Include pricing</label><button type="button" id="printBlueprint">Print / Save PDF (1 Page)</button><button type="button" id="downloadBlueprint">Download Patient Blueprint</button></div></div><main class="patientSheet"><div class="sheetBrand"><div><b>Masters Edition</b><p class="muted">Personalized Treatment Blueprint</p></div><div class="sheetContact"><strong>${esc(d.clinic)}</strong><br>${esc(d.provider)}<br>${[d.phone,d.email,d.website,d.booking].filter(Boolean).map(esc).join('<br>')}</div></div><div class="sheetTitle"><div><div class="titleKicker">Prepared for ${esc(d.patient)}</div><h2>${esc(d.goal)}<br>Treatment Blueprint</h2><p class="muted">Prepared by ${esc(d.clinic)}${d.provider?' · '+esc(d.provider):''}</p></div><div class="sheetBadge">Patient<br>Roadmap</div></div><section class="sheetPhilosophy"><h3>Treatment Philosophy</h3><p>The best aesthetic outcomes are achieved through progressive treatment, not individual procedures. This blueprint outlines a clinic-reviewed roadmap to discuss with your provider.</p></section><div class="sheetGrid"><section>${roadmapHTML(d.items)}</section><aside class="stackList"><div class="sectionLabel">Planned Stack</div>${stackHTML(d.items)}</aside></div><div class="sheetLower"><section class="infoBox"><h3>Why This Blueprint</h3><p class="muted">${esc(rationale(d))}</p></section><section class="infoBox"><h3>Provider Notes</h3><p class="muted">${d.suggestions?esc(d.suggestions):'Your provider will personalize this section with recommendations, timing, next steps, or details discussed during your consultation.'}</p></section>${investment || `<section class="infoBox"><h3>Questions for Your Provider</h3><div class="questionLines"><div></div><div></div><div></div></div></section>`}${investment ? `<section class="infoBox"><h3>Questions for Your Provider</h3><div class="questionLines"><div></div><div></div><div></div></div></section>` : ''}</div><p class="legal">Provider-review roadmap only. This is not medical clearance, diagnosis, a guarantee of outcome, pricing quote, or a replacement for manufacturer guidance, owner manuals, device training, or clinical judgment.</p></main>`;let pToggle=$('patientPricingToggle');if(pToggle)pToggle.onchange=()=>{state.includePricing=pToggle.checked;let inc=$('includePricing');if(inc)inc.checked=state.includePricing;renderPatient(false)};let print=$('printBlueprint');if(print)print.onclick=()=>{ $('patientStage').classList.add('show'); setTimeout(()=>window.print(),80); };let dl=$('downloadBlueprint');if(dl)dl.onclick=()=>exportPatientHTML();if(show){$('playbook').classList.remove('show');$('patientStage').classList.add('show');$('patientStage').scrollIntoView({behavior:'smooth',block:'start'})}}
+
+function renderPlaybook(show){let d=data();$('playbook').innerHTML=`<div class="blueprintPanel"><div class="panelHead"><h2>Patient Communication Plan</h2><span class="internalOnly"></span></div><div class="playbookGrid">${[{t:'Consult Recap',b:`Hi ${d.patient}, thank you for meeting with us. We prepared your Treatment Blueprint around ${d.goal.toLowerCase()}. Reply here with any questions and we can walk through the next step.`},{t:'48-Hour No-Book Check-In',b:`Hi ${d.patient}, just checking in on your blueprint. Would it be helpful if we simplified the plan into the easiest first step?`},{t:'Simplified First Step',b:'If the full blueprint feels like a lot, we can begin with the most realistic starting point and build from there.'},{t:'30-Day Reactivation',b:`Hi ${d.patient}, we still have your Treatment Blueprint on file. If this is still a priority, we can update the plan and confirm the best next step.`}].map(x=>`<div class="playbookCard"><b>${esc(x.t)}</b><p>${esc(x.b)}</p></div>`).join('')}</div></div>`;if(show){$('playbook').classList.add('show');$('playbook').scrollIntoView({behavior:'smooth'})}}
+function showPatient(){build(false);renderPatient(true)}
+function showPlaybook(){build(false);$('patientStage').classList.remove('show');renderPlaybook(true)}
+
+
+/* v26: dedicated Blueprint Document renderer */
+function phaseRows(items){
+  const phaseNames=['Prepare','Build','Refine','Maintain'];
+  const groups=[
+    {n:'Prepare',f:x=>['DISCOVER','PREPARE'].includes(x.phase)},
+    {n:'Build',f:x=>x.phase==='FOUNDATION'},
+    {n:'Refine',f:x=>['REFINE','OPTIMIZE'].includes(x.phase)},
+    {n:'Maintain',f:x=>x.phase==='MAINTAIN'}
+  ];
+  return groups.map((g,i)=>{
+    let list=items.filter(g.f); if(!list.length && i===0) list=[items[0]]; if(!list.length && i===3) list=[items[items.length-1]];
+    let focus={Prepare:'Optimize skin & build foundation',Build:'Strengthen & improve',Refine:'Enhance results & refine details',Maintain:'Protect & prolong results'}[g.n];
+    return `<tr><td class="bpPhase">${i+1}</td><td><b>${g.n}</b><br>${focus}</td><td>${list.map(x=>'• '+esc(x.name)).join('<br>')}</td></tr>`
+  }).join('')
+}
+function blueprintInvestmentHTML(d){
+  if(!state.includePricing){return `<div class="bpNoPrice"><b>Investment Guide</b>Pricing is kept internal by default. If the clinic chooses to include pricing, this panel becomes a patient-facing investment summary.</div>`}
+  let priced=d.items.filter(x=>priceFor(x)>0);
+  if(!priced.length){return `<div class="bpNoPrice"><b>Investment Guide</b>Add clinic pricing in the quote builder to populate this section.</div>`}
+  let rows=priced.map(x=>`<tr><td>${esc(x.name)}</td><td>${money(priceFor(x))}</td></tr>`).join('');
+  return `<div class="bpInvestment"><table><thead><tr><th>Category</th><th>Investment</th></tr></thead><tbody>${rows}<tr class="total"><td>Total Investment</td><td>${money(totalFor(d.items))}</td></tr></tbody></table><p style="font-size:6.4pt;line-height:1.25;margin:.06in .08in;color:#596579">Final pricing, candidacy, package details, and treatment sequence should be confirmed by the clinic.</p></div>`
+}
+function renderPatient(show){
+  let d={...data(),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||'')};
+  const title=`${esc(d.goal)} Treatment Blueprint`;
+  $('patientStage').innerHTML=`<div class="exportControls noPrint"><div><strong>Patient Blueprint Preview</strong><br><span class="tiny">One-page 8.5×11 landscape artifact. Follow-up templates stay internal.</span></div><div class="left"><label><input type="checkbox" id="patientPricingToggle" ${state.includePricing?'checked':''}> Include pricing</label><button type="button" id="printBlueprint">Print / Save PDF (1 Page)</button><button type="button" id="downloadBlueprint">Download Patient Blueprint</button></div></div>
+  <main class="patientSheet" aria-label="Treatment Blueprint Document">
+    <header class="bpHeader">
+      <div><div class="bpLogo"><div class="bpMark">M</div><div class="bpBrand"><b>Masters</b><span>Treatment Blueprint</span></div></div><div class="bpEdition">Masters Edition</div></div>
+      <div class="bpPatient"><div class="titleKicker">Prepared for</div><h2>${esc(d.patient)}</h2><p>Prepared by ${esc(d.clinic)}${d.provider?' · '+esc(d.provider):''}</p></div>
+      <div class="bpContact"><b>${esc(d.clinic)}</b>${esc(d.provider)}<br>${[d.phone,d.email,d.website,d.booking].filter(Boolean).map(esc).join('<br>')}<br><div class="bpBadge">Patient<br>Roadmap</div></div>
+    </header>
+    <section class="bpTop">
+      <aside class="bpPhilosophy"><h3>Treatment Philosophy</h3><p>The best aesthetic outcomes are achieved through progressive treatment, not individual procedures. This blueprint outlines a clinic-reviewed roadmap to discuss with your provider.</p></aside>
+      <section class="bpJourney">${roadmapHTML(d.items)}</section>
+    </section>
+    <section class="bpMiddle">
+      <div class="bpBlock"><h3>Recommended Treatment Plan</h3><table class="bpTable"><thead><tr><th>Phase</th><th>Focus</th><th>Key Treatments</th></tr></thead><tbody>${phaseRows(d.items)}</tbody></table></div>
+      <div class="bpBlock"><h3>Treatment Stack</h3>${d.items.map(x=>`<div class="bpStackItem"><div class="bpIconLabel"><span class="bpMiniIcon">${esc(x.icon||'✧')}</span>${esc(x.name)}</div><p>${esc(x.role)}</p></div>`).join('')}</div>
+      <div class="bpBlock"><h3>${state.includePricing?'Investment Summary':'Planning Notes'}</h3>${blueprintInvestmentHTML(d)}</div>
+    </section>
+    <section class="bpLower">
+      <div class="bpSmall"><h3>Why This Blueprint</h3><p>${esc(rationale(d))}</p></div>
+      <div class="bpSmall"><h3>Provider Notes</h3><p>${d.suggestions?esc(d.suggestions):'Your provider will personalize this section with recommendations, timing, next steps, or details discussed during your consultation.'}</p></div>
+      <div class="bpSmall"><h3>Long-Term Success</h3><ul><li>Review progress at each checkpoint</li><li>Maintain consistency with home care</li><li>Discuss maintenance cadence with your provider</li></ul></div>
+      <div class="bpQuote"><p>“This clinic has a thoughtful plan for me.”</p><span>Blueprint Principle</span><div class="bpLines"><div></div><div></div><div></div></div></div>
+    </section>
+    <footer class="bpFooter"><span><b class="fMark">M</b> Masters Treatment Blueprint</span><em>Personalized. Progressive. Purposeful.</em><span class="legal">Provider-review roadmap only. Not medical clearance, diagnosis, guarantee, pricing quote unless selected, or replacement for clinical judgment.</span></footer>
+  </main>`;
+  let pToggle=$('patientPricingToggle');if(pToggle)pToggle.onchange=()=>{state.includePricing=pToggle.checked;let inc=$('includePricing');if(inc)inc.checked=state.includePricing;renderPatient(false)};
+  let print=$('printBlueprint');if(print)print.onclick=()=>{ $('patientStage').classList.add('show'); setTimeout(()=>window.print(),120); };
+  let dl=$('downloadBlueprint');if(dl)dl.onclick=()=>exportPatientHTML();
+  if(show){$('playbook').classList.remove('show');$('patientStage').classList.add('show');$('patientStage').scrollIntoView({behavior:'smooth',block:'start'})}
+}
+function investmentHTML(d){return blueprintInvestmentHTML(d)}
+function exportPatientHTML(){
+  renderPatient(false);
+  let sheet=$('patientStage').querySelector('.patientSheet').outerHTML;
+  let css=[...document.querySelectorAll('style')].map(s=>s.innerHTML).join('\n');
+  let html=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Treatment Blueprint</title><style>${css}body{background:#efe7d8}.patientSheet{margin:24px auto!important}.exportControls,.sidebar,.topbar,.context,.bottomActions,.playbook{display:none!important}</style></head><body>${sheet}</body></html>`;
+  let blob=new Blob([html],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='patient-treatment-blueprint.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)
+}
+
+
+/* v28 package-tier override: separates Conservative / Balanced / Comprehensive quote logic */
+const tierMeta={
+  Conservative:{label:'Essentials',note:'Primary treatment + foundational support'},
+  Balanced:{label:'Most Popular',note:'Core stack + maintenance support'},
+  Comprehensive:{label:'Complete Plan',note:'Full available stack + selected add-ons'}
+};
+const serviceProfiles={
+  'Medical-Grade Skincare':{name:'Medical Skincare',priceKey:'Medical-Grade Skincare',phase:'PREPARE',icon:'✦',role:'Home-care support to improve readiness, consistency, and long-term skin quality.'},
+  'Injectables':{name:'Injectables',priceKey:'Injectables',phase:'OPTIMIZE',icon:'◒',role:'Provider-directed volume or wrinkle support when clinically appropriate.'},
+  'Membership':{name:'Long-Term Success',priceKey:'Membership',phase:'MAINTAIN',icon:'✺',role:'Personalized maintenance and review cadence to protect and extend results over time.'},
+  'Nutrition Coaching':{name:'Nutrition Coaching',priceKey:'Nutrition Coaching',phase:'PREPARE',icon:'▤',role:'Behavior support to improve consistency around body-composition goals.'},
+  'Hormone/Wellness Consult':{name:'Wellness Consult',priceKey:'Hormone/Wellness Consult',phase:'OPTIMIZE',icon:'◇',role:'Provider-directed wellness review when appropriate to the patient’s goals.'},
+  'IV Therapy':{name:'IV Therapy',priceKey:'IV Therapy',phase:'OPTIMIZE',icon:'♢',role:'Supportive wellness add-on when aligned with clinic protocol.'},
+  'PRP':{name:'PRP',priceKey:'PRP',phase:'OPTIMIZE',icon:'✧',role:'Regenerative support option when appropriate to the treatment plan.'},
+  'Microneedling':{name:'Microneedling',priceKey:'Microneedling',phase:'REFINE',icon:'☷',role:'Texture and collagen-support add-on when appropriate.'},
+  'Laser/IPL':{name:'Laser/IPL',priceKey:'Laser/IPL',phase:'REFINE',icon:'✺',role:'Tone, pigment, and skin-quality support when appropriate.'}
+};
+function uniqueItems(items){let seen=new Set();return items.filter(x=>{let k=priceKey(x);if(seen.has(k))return false;seen.add(k);return true;})}
+function quoteItemsFor(depth){
+  let goal=$('goal')?.value||'Facial Rejuvenation';
+  let visual=planFor(depth).filter(x=>!['Consult & Plan','Progress Review'].includes(x.name));
+  let add=[];
+  let isFace=goal.includes('Facial')||goal.includes('Skin')||goal.includes('Lift');
+  let isBody=goal.includes('Body')||goal.includes('Muscle')||goal.includes('Cellulite');
+  if(depth==='Conservative'){
+    // Keep this as the clean entry point: prep + primary technology only.
+    add=visual.filter(x=>x.type==='Core'||x.priceKey==='Medical-Grade Skincare'||x.name==='Medical Skincare').slice(0,2);
+  } else if(depth==='Balanced'){
+    // Balanced should feel meaningfully stronger: primary + secondary + foundational support + membership.
+    add=[...visual];
+    if(state.services.includes('Membership')) add.push(serviceProfiles['Membership']);
+    if(isBody && state.services.includes('Nutrition Coaching')) add.push(serviceProfiles['Nutrition Coaching']);
+  } else {
+    // Comprehensive means all relevant clinic-selected add-ons are included in the quote math.
+    add=[...visual];
+    Object.keys(serviceProfiles).forEach(s=>{
+      if(!state.services.includes(s))return;
+      if(s==='Injectables' && !isFace)return;
+      if(['Nutrition Coaching'].includes(s) && !isBody)return;
+      add.push(serviceProfiles[s]);
+    });
+    // Include all goal-fit devices owned by the clinic, not only the 5 visible roadmap phases.
+    fitItems(goal).forEach(x=>add.push(x));
+  }
+  return uniqueItems(add);
+}
+function totalFor(items){return (items||[]).reduce((sum,x)=>sum+priceFor(x),0)}
+function data(){let items=currentPlan();let depth=$('depth').value;let quoteItems=quoteItemsFor(depth);return {clinic:$('clinic').value||'Your Clinic',patient:$('patient').value||'Patient',age:$('age').value||'',goal:$('goal').value,depth,timeline:$('timeline').value||'',provider:$('provider').value||'',phone:$('phone').value||'',email:$('email').value||'',website:$('website').value||'',booking:$('booking').value||'',items,quoteItems,total:totalFor(quoteItems),flags:[...$('flagChips').querySelectorAll('.active')].map(x=>x.dataset.v),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||''),packageName:state.packageName||''}}
+function pricingUniverse(){let names=new Set();['Conservative','Balanced','Comprehensive'].forEach(d=>quoteItemsFor(d).forEach(x=>{let k=priceKey(x);if(!['Consult & Plan','Progress Review'].includes(x.name))names.add(k)}));state.services.forEach(s=>{if(serviceProfiles[s])names.add(s)});return [...names]}
+function quoteHTML(d){let names=pricingUniverse();let rows=names.map(n=>`<div class="priceRow"><label>${esc(n)}</label><input inputmode="decimal" data-price="${esc(n)}" placeholder="Add quote" value="${esc(state.pricing[n]||'')}"></div>`).join('');let cards=['Conservative','Balanced','Comprehensive'].map(depth=>{let items=quoteItemsFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;let meta=tierMeta[depth];return `<div class="approachQuote" data-tier="${depth}" data-tier-label="${esc(meta.label)}"><b>${depth}</b><span data-total="${depth}">${money(total)}</span><small data-count="${depth}">${priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate'}<strong>${esc(meta.note)}</strong></small></div>`}).join('');return `<div class="infoBox quoteBuilder isEditable"><div class="quoteToolbar"><div><h3>Treatment Options Builder</h3><p class="muted">Enter pricing once. The three approaches now calculate from different package levels, not the same item set.</p></div><div class="quoteTotal" data-total="selected">${money(d.total)}</div></div><div class="priceRows">${rows}</div><div class="approachQuotes">${cards}</div><div class="quoteOptions"><label><input type="checkbox" id="includePricing" ${state.includePricing?'checked':''}> Include recommended treatment options on patient blueprint</label></div><div class="quoteNote"><strong>Internal by default:</strong> Conservative is the entry point, Balanced is the core recommended stack, and Comprehensive includes all relevant selected add-ons/services.</div></div>`}
+function updateQuoteDisplays(){['Conservative','Balanced','Comprehensive'].forEach(depth=>{let items=quoteItemsFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;let t=document.querySelector(`[data-total="${depth}"]`);let c=document.querySelector(`[data-count="${depth}"]`);if(t)t.textContent=money(total);if(c)c.innerHTML=(priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate')+`<strong>${esc(tierMeta[depth].note)}</strong>`;});let sel=document.querySelector('[data-total="selected"]');if(sel)sel.textContent=money(totalFor(quoteItemsFor($('depth').value)));}
+function blueprintInvestmentHTML(d){
+  if(!state.includePricing){return `<div class="bpNoPrice"><b>Investment Guide</b>Pricing is kept internal by default. If the clinic chooses to include pricing, this panel becomes a patient-facing investment summary.</div>`}
+  let priced=(d.quoteItems||d.items).filter(x=>priceFor(x)>0);
+  if(!priced.length){return `<div class="bpNoPrice"><b>Investment Guide</b>Add clinic pricing in the quote builder to populate this section.</div>`}
+  let rows=priced.map(x=>`<tr><td>${esc(priceKey(x))}</td><td>${money(priceFor(x))}</td></tr>`).join('');
+  return `<div class="bpInvestment"><table><thead><tr><th>Category</th><th>Investment</th></tr></thead><tbody>${rows}<tr class="total"><td>Total Investment</td><td>${money(totalFor(priced))}</td></tr></tbody></table><p style="font-size:6.4pt;line-height:1.25;margin:.06in .08in;color:#596579">Final pricing, candidacy, package details, and treatment sequence should be confirmed by the clinic.</p></div>`
+}
+function investmentHTML(d){return blueprintInvestmentHTML(d)}
+
+
+
+/* RC1 copy and patient-document overrides: presentation-ready wording pass */
+const tierMetaRC1={
+  Conservative:{label:'Essential',note:'A focused starting point built around the primary recommendation'},
+  Balanced:{label:'Recommended',note:'The core treatment sequence for a more complete result'},
+  Comprehensive:{label:'Complete',note:'The full available plan with relevant supportive services'}
+};
+function approachName(depth){return tierMetaRC1[depth]?.label||depth}
+function phaseRows(items){
+  const groups=[
+    {n:'Prepare',f:x=>['DISCOVER','PREPARE'].includes(x.phase),focus:'Understand goals and build the right foundation'},
+    {n:'Strengthen',f:x=>x.phase==='FOUNDATION',focus:'Improve tone, support, or core treatment goals'},
+    {n:'Refine',f:x=>['REFINE','OPTIMIZE'].includes(x.phase),focus:'Enhance the result and personalize the details'},
+    {n:'Maintain',f:x=>x.phase==='MAINTAIN',focus:'Protect progress with review and maintenance'}
+  ];
+  return groups.map((g,i)=>{
+    let list=items.filter(g.f); if(!list.length && i===0) list=[items[0]]; if(!list.length && i===3) list=[items[items.length-1]];
+    return `<tr><td class="bpPhase">${i+1}</td><td><b>${g.n}</b><br>${g.focus}</td><td>${list.map(x=>'• '+esc(x.name)).join('<br>')}</td></tr>`
+  }).join('')
+}
+function rationale(d){
+  let names=d.items.map(x=>x.name).filter(x=>!['Consult & Plan','Progress Review','Long-Term Success'].includes(x));
+  if(names.length){
+    return `Every recommendation in this plan has been selected to work together, creating a progressive treatment journey around ${d.goal.toLowerCase()}, your timeline, and the clinic’s available technology.`;
+  }
+  return `This roadmap is intended to guide a thoughtful provider conversation and should be personalized based on candidacy, goals, timing, and clinic protocol.`;
+}
+function blueprintInvestmentHTML(d){
+  if(!state.includePricing){return `<div class="bpNoPrice"><b>What To Expect</b>Your provider may recommend one of several treatment options based on your goals, timeline, and desired outcome.</div>`}
+  let priced=(d.quoteItems||d.items).filter(x=>priceFor(x)>0);
+  if(!priced.length){return `<div class="bpNoPrice"><b>Your Treatment Options</b>Clinic pricing can be added in the Treatment Options Builder when your provider chooses to include it.</div>`}
+  let rows=priced.map(x=>`<tr><td>${esc(priceKey(x))}</td><td>${money(priceFor(x))}</td></tr>`).join('');
+  return `<div class="bpInvestment"><table><thead><tr><th>Treatment / Service</th><th>Investment</th></tr></thead><tbody>${rows}<tr class="total"><td>Total</td><td>${money(totalFor(priced))}</td></tr></tbody></table><p style="font-size:6.4pt;line-height:1.25;margin:.06in .08in;color:#596579">Your provider will confirm final pricing, candidacy, timing, package details, and treatment sequence before care begins.</p></div>`
+}
+function quoteHTML(d){
+  let names=pricingUniverse();
+  let rows=names.map(n=>`<div class="priceRow"><label>${esc(n)}</label><input inputmode="decimal" data-price="${esc(n)}" placeholder="Add quote" value="${esc(state.pricing[n]||'')}"></div>`).join('');
+  let cards=['Conservative','Balanced','Comprehensive'].map(depth=>{
+    let items=quoteItemsFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;let meta=tierMetaRC1[depth];
+    return `<div class="approachQuote" data-tier="${depth}" data-tier-label="${esc(meta.label)}"><b>${esc(meta.label)}</b><span data-total="${depth}">${money(total)}</span><small data-count="${depth}">${priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate'}<strong>${esc(meta.note)}</strong></small></div>`
+  }).join('');
+  return `<div class="infoBox quoteBuilder isEditable"><div class="quoteToolbar"><div><h3>Treatment Options Builder</h3><p class="muted">Enter pricing once. Essential, Recommended, and Complete options calculate from different package levels.</p></div><div class="quoteTotal" data-total="selected">${money(d.total)}</div></div><div class="priceRows">${rows}</div><div class="approachQuotes">${cards}</div><div class="quoteOptions"><label><input type="checkbox" id="includePricing" ${state.includePricing?'checked':''}> Include recommended treatment options on patient blueprint</label></div><div class="quoteNote"><strong>Internal by default:</strong> pricing helps the clinic prepare a quote. Only include it on the patient blueprint when the clinic wants the patient to see treatment options.</div></div>`
+}
+function updateQuoteDisplays(){
+  ['Conservative','Balanced','Comprehensive'].forEach(depth=>{let items=quoteItemsFor(depth);let total=totalFor(items);let priced=items.filter(x=>priceFor(x)>0).length;let t=document.querySelector(`[data-total="${depth}"]`);let c=document.querySelector(`[data-count="${depth}"]`);if(t)t.textContent=money(total);if(c)c.innerHTML=(priced?priced+' priced item'+(priced>1?'s':''):'Add pricing to calculate')+`<strong>${esc(tierMetaRC1[depth].note)}</strong>`;});let sel=document.querySelector('[data-total="selected"]');if(sel)sel.textContent=money(totalFor(quoteItemsFor($('depth').value)));}
+function renderPatient(show){
+  let d={...data(),suggestions:($('clinicalNotes')?.value||state.last?.suggestions||'')};
+  $('patientStage').innerHTML=`<div class="exportControls noPrint"><div><strong>Patient Blueprint Preview</strong><br><span class="tiny">One-page 8.5×11 landscape patient-facing document. Follow-up templates remain internal.</span></div><div class="left"><label><input type="checkbox" id="patientPricingToggle" ${state.includePricing?'checked':''}> Include treatment options</label><button type="button" id="printBlueprint">Print / Save PDF (1 Page)</button><button type="button" id="downloadBlueprint">Download Patient Blueprint</button></div></div>
+  <main class="patientSheet" aria-label="Treatment Blueprint Document">
+    <header class="bpHeader">
+      <div><div class="bpLogo"><div class="bpMark">M</div><div class="bpBrand"><b>Masters</b><span>Treatment Blueprint</span></div></div><div class="bpEdition">Masters Edition</div></div>
+      <div class="bpPatient"><div class="titleKicker">Your Personalized Treatment Blueprint</div><h2>${esc(d.patient)}</h2><p>Designed around your goals, timeline, and your provider’s recommendations.</p></div>
+      <div class="bpContact"><b>${esc(d.clinic)}</b>${esc(d.provider)}<br>${[d.phone,d.email,d.website,d.booking].filter(Boolean).map(esc).join('<br>')}<br><div class="bpBadge">Patient<br>Roadmap</div></div>
+    </header>
+    <section class="bpTop">
+      <aside class="bpPhilosophy"><h3>Our Approach</h3><p>The most natural, lasting results are achieved through a thoughtful sequence of treatments—not a single appointment. This roadmap has been personalized to support your goals while prioritizing safety, consistency, and long-term success.</p></aside>
+      <section class="bpJourney">${roadmapHTML(d.items)}</section>
+    </section>
+    <section class="bpMiddle">
+      <div class="bpBlock"><h3>Your Treatment Journey</h3><table class="bpTable"><thead><tr><th>Phase</th><th>Focus</th><th>Recommended Steps</th></tr></thead><tbody>${phaseRows(d.items)}</tbody></table></div>
+      <div class="bpBlock"><h3>Your Recommended Treatments</h3>${d.items.map(x=>`<div class="bpStackItem"><div class="bpIconLabel"><span class="bpMiniIcon">${esc(x.icon||'✧')}</span>${esc(x.name)}</div><p>${esc(x.role)}</p></div>`).join('')}</div>
+      <div class="bpBlock"><h3>${state.includePricing?'Your Treatment Options':'What To Expect'}</h3>${blueprintInvestmentHTML(d)}</div>
+    </section>
+    <section class="bpLower">
+      <div class="bpSmall"><h3>Why This Approach?</h3><p>${esc(rationale(d))}</p></div>
+      <div class="bpSmall"><h3>Notes From Your Provider</h3><p>${d.suggestions?esc(d.suggestions):'Your provider will personalize this section with recommendations, timing, next steps, or details discussed during your consultation.'}</p></div>
+      <div class="bpSmall"><h3>Maintaining Your Results</h3><ul><li>Review progress at each checkpoint</li><li>Stay consistent with recommended care</li><li>Discuss your maintenance cadence together</li></ul></div>
+      <div class="bpQuote"><p>“The best results come from consistency over time.”</p><span>Your Journey Doesn’t End Here</span><div class="bpLines"><div></div><div></div><div></div></div></div>
+    </section>
+    <footer class="bpFooter"><span><b class="fMark">M</b> Masters Treatment Blueprint</span><em>Prepared exclusively for your consultation.</em><span class="legal">Bring this roadmap to future appointments so your provider can review progress with you. Provider-review roadmap only; not medical clearance, diagnosis, or a guarantee of outcome.</span></footer>
+  </main>`;
+  let pToggle=$('patientPricingToggle');if(pToggle)pToggle.onchange=()=>{state.includePricing=pToggle.checked;let inc=$('includePricing');if(inc)inc.checked=state.includePricing;renderPatient(false)};
+  let print=$('printBlueprint');if(print)print.onclick=()=>{ $('patientStage').classList.add('show'); setTimeout(()=>window.print(),120); };
+  let dl=$('downloadBlueprint');if(dl)dl.onclick=()=>exportPatientHTML();
+  if(show){$('playbook').classList.remove('show');$('patientStage').classList.add('show');$('patientStage').scrollIntoView({behavior:'smooth',block:'start'})}
+}
+function investmentHTML(d){return blueprintInvestmentHTML(d)}
+
+init();
+</script>
+</body>
+</html>
