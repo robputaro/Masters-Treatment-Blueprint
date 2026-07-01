@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Masters Treatment Blueprint Studio v28</title>
+<title>Masters Treatment Blueprint Studio RC1 Mobile</title>
 <style>
 :root{
   --navy:#061a34; --navy2:#09284d; --gold:#c99a35; --gold2:#e9cc7a; --cream:#fbf5e9; --paper:#fffdf8; --ink:#101827; --muted:#667085; --line:#ded2bc; --soft:#f4ead7; --blue:#0c3768;
@@ -248,6 +248,43 @@
 .approachQuote[data-tier="Balanced"]{background:linear-gradient(180deg,rgba(233,204,122,.2),rgba(255,255,255,.06));border-color:rgba(233,204,122,.72)}
 .approachQuote[data-tier="Comprehensive"]{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border-color:rgba(255,248,234,.36)}
 .approachQuote span{letter-spacing:-.02em}.approachQuote small{line-height:1.35}.approachQuote small strong{display:block;color:#fff8ea;font-size:11px;margin-top:4px}.tierHint{display:block;color:#b7c4d8;font-size:10px;line-height:1.35;margin-top:5px}.quoteOptions{border-top-color:rgba(233,204,122,.22)!important}.quoteTotal:before{content:'Selected';display:block;font-family:var(--sans);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#c9d4e7;margin-bottom:5px}.supportGrid{align-items:start}.recommendBox textarea{min-height:126px!important}.infoBox{box-shadow:0 10px 32px rgba(6,26,52,.045)}
+
+
+
+/* RC1 mobile usability pass: keep desktop design, make setup/editing viable on phones */
+@media (max-width: 760px){
+  html,body{overflow-x:hidden;background:var(--paper)}
+  body{font-size:15px}
+  .app{display:block;min-height:100vh;background:var(--paper)!important}
+  .sidebar{position:relative;height:auto;padding:18px 16px 14px;background:linear-gradient(180deg,#071b35,#031125);border-bottom:3px solid var(--gold)}
+  .logo{margin-bottom:14px}.mark{font-size:38px}.brand b{font-size:18px}.brand span{font-size:8px;letter-spacing:.16em}
+  .sideTitle{display:none}.mastersCard{display:none}
+  .navItem{grid-template-columns:24px 1fr;padding:10px 8px;margin:2px 0;border-left:0;border-bottom:1px solid rgba(255,255,255,.08);border-radius:8px}
+  .navItem i{font-size:16px}.navItem b{font-size:12px}.navItem span{display:none}
+  .content{padding:0 14px 34px!important}
+  .topbar{position:sticky;top:0;z-index:20;height:auto;display:grid;grid-template-columns:1fr;gap:10px;padding:12px 0;background:rgba(255,253,248,.96);border-bottom:1px solid #e8ddc8;backdrop-filter:blur(10px)}
+  .clinicMini{display:block;max-width:none}.clinicMini label{display:block;margin-bottom:4px}.clinicMini input{width:100%;border:1px solid #ded2bc;border-radius:8px;background:#fffaf0;padding:11px 12px;font-size:15px}
+  .topbar .pillBtn,.topbar .darkBtn,.pillBtn,.darkBtn{width:100%;padding:13px 14px;border-radius:10px;text-align:center;justify-content:center}
+  .heroGrid{display:block!important;padding-top:18px!important}.context{border-right:0!important;padding-right:0!important;border-bottom:1px solid #e6d9c4;padding-bottom:14px;margin-bottom:22px}
+  .contextBlock{padding:14px!important;margin-top:14px!important;border-radius:12px;background:#fffdf8!important}
+  .field{margin:14px 0}.field input,.field select,.field textarea{font-size:16px}.field textarea{min-height:94px}
+  .addRow{grid-template-columns:1fr 44px}.addRow button{height:44px}.tag,.chip{font-size:12px;padding:8px 10px}
+  .edition{margin-bottom:14px;font-size:10px;padding:8px 10px}.titleRow{display:block!important}.titleKicker{font-size:10px}.mainTitle{font-size:48px!important;line-height:.9!important;letter-spacing:-.05em!important}.subline{font-size:10px;letter-spacing:.18em;margin-top:12px}
+  .patientQuote{margin-top:16px;padding:16px;border-radius:12px}.patientQuote h3{font-size:16px}.patientQuote p{font-size:15px;margin-top:12px}
+  .philosophy{grid-template-columns:40px 1fr!important;gap:12px!important;margin:18px 0!important}.philosophy:after{display:none}.compass{width:40px;height:40px;font-size:20px}.philosophy p{font-size:15px;line-height:1.45}.philosophy b{font-size:11px}
+  .blueprintPanel{padding:18px 14px!important;border-radius:14px!important;margin-top:16px}.panelHead{display:block;margin-bottom:16px}.panelHead h2{font-size:13px;margin-bottom:8px}.readOnlyLabel{font-size:8px}
+  .roadmap{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}.roadmap:before{display:none!important}.phase{text-align:left!important;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;padding:12px!important;border:1px solid #eadfce;border-radius:12px;background:#fffaf0}.phase .num{grid-row:1 / span 2;width:38px;height:38px;margin:0!important}.phase .icon{display:none}.phase h3{font-size:13px;margin:0 0 5px!important}.phase p{font-size:12px;line-height:1.4}
+  .supportGrid{display:block!important}.infoBox{margin-top:12px;padding:16px!important;border-radius:12px}.infoBox h3{font-size:20px}.checks{gap:7px}.checks div{font-size:12px}
+  .quoteBuilder{margin-top:12px}.quoteToolbar{display:block}.quoteTotal{text-align:left;margin-top:6px;font-size:28px}.priceRows{display:grid!important;grid-template-columns:1fr!important}.priceRow{grid-template-columns:1fr 122px!important}.priceRow input{font-size:16px;text-align:right}.approachQuotes{grid-template-columns:1fr!important}.quoteOptions{display:block}.quoteOptions label{margin:8px 0}
+  .recommendBox textarea{min-height:110px;font-size:16px}.bottomActions{grid-template-columns:1fr!important;gap:12px!important}.actionBlock{grid-template-columns:38px 1fr 24px!important;padding:18px!important}.actionIcon{width:38px;height:38px}.actionBlock b{font-size:12px!important}.actionBlock span{font-size:12px!important}
+  .confidenceChecks{grid-template-columns:1fr!important}.playbookGrid{grid-template-columns:1fr!important}.playbookCard{padding:15px}
+  .exportControls{display:block!important;margin:12px 0!important;padding:12px!important}.exportControls .left{display:block!important}.exportControls button{width:100%;margin-top:8px}.exportControls label{margin:10px 0;line-height:1.4}
+  .sheetWrap.show{overflow-x:auto!important;-webkit-overflow-scrolling:touch;padding:8px 0 22px;margin-left:-14px;margin-right:-14px}.patientSheet{width:1060px!important;min-width:1060px!important;max-width:none!important;transform:none!important;margin:0 14px!important;aspect-ratio:11/8.5!important}
+  .workspaceNote{font-size:11px;padding:11px;margin-top:12px}.researchGrid{grid-template-columns:1fr!important}
+}
+@media (min-width:761px) and (max-width:1100px){
+  .sidebar{height:auto;position:relative}.content{padding:0 22px 44px!important}.heroGrid{grid-template-columns:1fr!important}.context{border-right:0!important;padding-right:0!important;border-bottom:1px solid #e6d9c4;padding-bottom:20px}.supportGrid{grid-template-columns:1fr!important}.patientSheet{min-width:980px}.sheetWrap.show{overflow-x:auto}
+}
 
 </style>
 </head>
